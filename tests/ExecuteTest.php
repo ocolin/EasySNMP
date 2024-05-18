@@ -25,7 +25,7 @@ class ExecuteTest extends TestCase
         );
 
         $output = $snmp->execute( cmd: 'snmpbulkwalk', oid: '.1.3.6.1.2.1.25.1' );
-        $this->assertIsArray( $output );
+        $this->assertIsArray( actual: $output );
     }
 
 

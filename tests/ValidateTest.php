@@ -17,7 +17,7 @@ class ValidateTest extends TestCase
     {
         $output = EasySNMP::validate_Version();
 
-        $this->assertIsInt( $output );
+        $this->assertIsInt( actual: $output );
         $this->assertEquals( expected: 2, actual: $output );
     }
 
@@ -31,7 +31,7 @@ class ValidateTest extends TestCase
         $_ENV['SNMP_VERSION'] = 1;
         $output = EasySNMP::validate_Version();
 
-        $this->assertIsInt( $output );
+        $this->assertIsInt( actual: $output );
         $this->assertEquals( expected: 1, actual: $output );
 
         $_ENV['SNMP_VERSION'] = 2;
@@ -47,7 +47,7 @@ class ValidateTest extends TestCase
         $_ENV['SNMP_VERSION'] = 3;
         $output = EasySNMP::validate_Version();
 
-        $this->assertIsInt( $output );
+        $this->assertIsInt( actual: $output );
         $this->assertEquals( expected: 2, actual: $output );
 
         $_ENV['SNMP_VERSION'] = 2;
@@ -62,7 +62,7 @@ class ValidateTest extends TestCase
     {
         $output = EasySNMP::validate_Version( version: 2 );
 
-        $this->assertIsInt( $output );
+        $this->assertIsInt( actual: $output );
         $this->assertEquals( expected: 2, actual: $output );
     }
 
@@ -75,7 +75,7 @@ class ValidateTest extends TestCase
     {
         $output = EasySNMP::validate_Version( version: 3 );
 
-        $this->assertIsInt( $output );
+        $this->assertIsInt( actual: $output );
         $this->assertEquals( expected: 2, actual: $output );
     }
 
@@ -157,7 +157,7 @@ class ValidateTest extends TestCase
     {
         $output = EasySNMP::create_Version_Tag( number: 100 );
 
-        $this->assertIsString( $output );
+        $this->assertIsString( actual: $output );
         $this->assertEquals( expected: '-v1', actual: $output );
     }
 

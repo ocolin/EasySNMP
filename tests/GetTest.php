@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class GetTest extends TestCase
 {
 
-/*
+/* TEST GET WITH GOOD DATA
 ---------------------------------------------------------------------------- */
 
     /**
@@ -38,7 +38,8 @@ class GetTest extends TestCase
     }
 
 
-/*
+
+/* TEST GET WITH BAD DATA
 ---------------------------------------------------------------------------- */
 
     /**
@@ -47,16 +48,18 @@ class GetTest extends TestCase
     public function testGetBad() : void
     {
         $snmp = new EasySNMP(
-            ip: $_ENV['SNMP_TEST_DEVICE'],
+               ip: $_ENV['SNMP_TEST_DEVICE'],
             local: true
         );
 
-        $result = $snmp->get(oid: '.1.3.6.1.2.1.31.200.1.1.19.1000');
+        $result = $snmp->get( oid: '.1.3.6.1.2.1.31.200.1.1.19.1000');
 
-        $this->assertNull( $result );
+        $this->assertNull( actual: $result );
     }
 
-/*
+
+
+/* SET UP BEFORE CLASS
 ---------------------------------------------------------------------------- */
 
     /**

@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 class WalkTest extends TestCase
 {
 
-/*
+/* TEST BULK WALK
 ---------------------------------------------------------------------------- */
 
     /**
@@ -19,15 +19,15 @@ class WalkTest extends TestCase
     public function testBulkWalk() : void
     {
         $snmp = new EasySNMP(
-            ip: $_ENV['SNMP_TEST_DEVICE'],
+               ip: $_ENV['SNMP_TEST_DEVICE'],
             local: true
         );
 
         $result = $snmp->walk( oid: '.1.3.6.1.2.1.25.2' );
 
-        $this->assertIsArray( $result );
-        $this->assertNotEmpty( $result );
-        $this->assertIsObject( $result[0] );
+        $this->assertIsArray(  actual: $result );
+        $this->assertNotEmpty( actual: $result );
+        $this->assertIsObject( actual: $result[0] );
         $this->assertObjectHasProperty( propertyName: 'origin', object: $result[0] );
         $this->assertObjectHasProperty( propertyName: 'type',   object: $result[0] );
         $this->assertObjectHasProperty( propertyName: 'value',  object: $result[0] );
@@ -40,7 +40,8 @@ class WalkTest extends TestCase
     }
 
 
-/*
+
+/* TEST REGULAR WALK
 ---------------------------------------------------------------------------- */
 
     /**
@@ -49,15 +50,15 @@ class WalkTest extends TestCase
     public function testWalk() : void
     {
         $snmp = new EasySNMP(
-            ip: $_ENV['SNMP_TEST_DEVICE'],
+               ip: $_ENV['SNMP_TEST_DEVICE'],
             local: true
         );
 
         $result = $snmp->walk( oid: '.1.3.6.1.2.1.25.2', bulk: false );
 
-        $this->assertIsArray( $result );
-        $this->assertNotEmpty( $result );
-        $this->assertIsObject( $result[0] );
+        $this->assertIsArray(  actual: $result );
+        $this->assertNotEmpty( actual: $result );
+        $this->assertIsObject( actual: $result[0] );
         $this->assertObjectHasProperty( propertyName: 'origin', object: $result[0] );
         $this->assertObjectHasProperty( propertyName: 'type',   object: $result[0] );
         $this->assertObjectHasProperty( propertyName: 'value',  object: $result[0] );
@@ -68,6 +69,11 @@ class WalkTest extends TestCase
         $this->assertIsString( actual: $result[0]->type );
         $this->assertIsString( actual: $result[0]->name );
     }
+
+
+
+/* SET UP BEFORE CLASS
+---------------------------------------------------------------------------- */
 
     /**
      * @throws Exception

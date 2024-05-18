@@ -58,9 +58,9 @@ class EasySNMP
             EasyEnv::loadEnv(path: __DIR__ . '/../.env' );
         }
 
-        $this->ip = self::validate_IP( $ip );
+        $this->ip = self::validate_IP( ip: $ip );
         $this->community = $community ?? $_ENV['SNMP_COMMUNITY'] ?? 'public';
-        $this->version = self::validate_Version( $version );
+        $this->version = self::validate_Version( version: $version );
     }
 
 
@@ -153,7 +153,7 @@ class EasySNMP
         }
 
         // PREVENT MALICIOUS CODE FROM BEING EXECUTED
-        if( !empty( $oid ) AND !self::validate_OID( $oid )) {
+        if( !empty( $oid ) AND !self::validate_OID( oid: $oid )) {
             $oid = '';
         }
 
@@ -183,13 +183,17 @@ class EasySNMP
         $output->value = '';
 
         // MIKROTIKS SOMETIMES SHOW ERRORS
-        $row = str_replace( "Wrong Type (should be INTEGER): ", '', $row );
+        $row = str_replace(
+             search: "Wrong Type (should be INTEGER): ",
+            replace: '',
+            subject: $row
+        );
 
         list( $oid, $row ) = explode( separator: ' = ', string: (string)$row );
 
         // IF THERE IS A TYPE BUT NO VALUE - VALUE COULD HAVE COLON IN IT
         if( preg_match( pattern: "#.+:$#i", subject: $row )) {
-            $output->type = trim( substr( $row, offset: 0, length: -1 ));
+            $output->type = trim( substr( string: $row, offset: 0, length: -1 ));
         }
 
         // IF THERE IS BOTH VALUE AND TYPE
