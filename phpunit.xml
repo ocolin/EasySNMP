@@ -15,6 +15,7 @@
             <file>tests/ExecuteTest.php</file>
             <file>tests/WalkTest.php</file>
             <file>tests/GetTest.php</file>
+            <file>tests/GetNextTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

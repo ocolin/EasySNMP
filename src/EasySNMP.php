@@ -93,6 +93,34 @@ class EasySNMP
     }
 
 
+/* PERFORM AN SNMP GET NEXT REQUEST
+---------------------------------------------------------------------------- */
+
+    /**
+     * @param string $oid Next OID to query
+     * @param bool $numeric Use numerical output
+     * @return object|null Data object or null if not found
+     * @throws Exception
+     */
+    public function getNext( string $oid, bool $numeric = false ) : object|null
+    {
+        $output = $this->execute( cmd: 'snmpgetnext', oid: $oid, numeric: $numeric );
+
+        if( !empty( $output[0])) {
+            if( str_contains(
+                haystack: $output[0],
+                  needle: 'No Such Object available on this agent at this OID'
+            )) {
+                return null;
+            }
+
+            return self::parse_Row( $output[0] );
+        }
+
+        return null;
+    }
+
+
 
 /* PERFORM AN SNMP WALK OVER AN SNMP TREE
 ---------------------------------------------------------------------------- */
@@ -144,6 +172,7 @@ class EasySNMP
             'snmpwalk',
             'snmpbulkwalk',
             'snmpget',
+            'snmpgetnext'
         ];
         $num = '';
 
