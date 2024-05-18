@@ -21,9 +21,9 @@ class EasySNMP
     private string $community;
 
     /**
-     * @var int Version of SNMP (v3 not supported))
+     * @var int Version of SNMP (v3 not supported)
      */
-    private int $version = 2;
+    private int $version;
 
     /**
      * @var array|string[] List of Data types that are integers
@@ -81,7 +81,7 @@ class EasySNMP
         if( !empty( $output[0])) {
             if( str_contains(
                 haystack: $output[0],
-                needle: 'No Such Object available on this agent at this OID'
+                  needle: 'No Such Object available on this agent at this OID'
             )) {
                 return null;
             }
