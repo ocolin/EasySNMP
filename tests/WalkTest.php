@@ -31,12 +31,10 @@ class WalkTest extends TestCase
         $this->assertObjectHasProperty( propertyName: 'origin', object: $result[0] );
         $this->assertObjectHasProperty( propertyName: 'type',   object: $result[0] );
         $this->assertObjectHasProperty( propertyName: 'value',  object: $result[0] );
-        $this->assertObjectHasProperty( propertyName: 'index',  object: $result[0] );
-        $this->assertObjectHasProperty( propertyName: 'name',   object: $result[0] );
-        $this->assertIsInt( actual: $result[0]->index );
+        $this->assertObjectHasProperty( propertyName: 'oid',   object: $result[0] );
         $this->assertIsString( actual: $result[0]->origin );
         $this->assertIsString( actual: $result[0]->type );
-        $this->assertIsString( actual: $result[0]->name );
+        $this->assertIsString( actual: $result[0]->oid );
     }
 
 
@@ -62,12 +60,10 @@ class WalkTest extends TestCase
         $this->assertObjectHasProperty( propertyName: 'origin', object: $result[0] );
         $this->assertObjectHasProperty( propertyName: 'type',   object: $result[0] );
         $this->assertObjectHasProperty( propertyName: 'value',  object: $result[0] );
-        $this->assertObjectHasProperty( propertyName: 'index',  object: $result[0] );
-        $this->assertObjectHasProperty( propertyName: 'name',   object: $result[0] );
-        $this->assertIsInt( actual: $result[0]->index );
+        $this->assertObjectHasProperty( propertyName: 'oid',   object: $result[0] );
         $this->assertIsString( actual: $result[0]->origin );
         $this->assertIsString( actual: $result[0]->type );
-        $this->assertIsString( actual: $result[0]->name );
+        $this->assertIsString( actual: $result[0]->oid );
     }
 
 

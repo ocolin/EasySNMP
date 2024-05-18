@@ -29,12 +29,10 @@ class GetTest extends TestCase
         $this->assertObjectHasProperty( propertyName: 'origin', object: $result );
         $this->assertObjectHasProperty( propertyName: 'type',   object: $result );
         $this->assertObjectHasProperty( propertyName: 'value',  object: $result );
-        $this->assertObjectHasProperty( propertyName: 'index',  object: $result );
-        $this->assertObjectHasProperty( propertyName: 'name',   object: $result );
-        $this->assertIsInt( actual: $result->index );
+        $this->assertObjectHasProperty( propertyName: 'oid',   object: $result );
         $this->assertIsString( actual: $result->origin );
         $this->assertIsString( actual: $result->type );
-        $this->assertIsString( actual: $result->name );
+        $this->assertIsString( actual: $result->oid );
     }
 
 

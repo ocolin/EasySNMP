@@ -189,7 +189,7 @@ class EasySNMP
             subject: $row
         );
 
-        list( $oid, $row ) = explode( separator: ' = ', string: (string)$row );
+        list( $output->oid, $row ) = explode( separator: ' = ', string: (string)$row );
 
         // IF THERE IS A TYPE BUT NO VALUE - VALUE COULD HAVE COLON IN IT
         if( preg_match( pattern: "#.+:$#i", subject: $row )) {
@@ -207,9 +207,11 @@ class EasySNMP
         }
 
         // SEPARATE INDEX FROM OID NAME
+        /*
         $parts = explode( separator: '.', string: $oid );
         $output->index = (int)array_pop( array: $parts);
         $output->name = implode( separator: '.', array: $parts );
+        */
 
         return $output;
     }
