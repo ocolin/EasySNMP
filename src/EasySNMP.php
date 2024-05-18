@@ -147,14 +147,22 @@ class EasySNMP
         ];
         $num = '';
 
+        // VALIDATE COMMAND TO SEND
         if( !in_array( needle: $cmd, haystack: $allowed_commands )) {
             throw new Exception( message: "$cmd is not a valid SNMP command." );
         }
 
+        // PREVENT MALICIOUS CODE FROM BEING EXECUTED
+        if( !empty( $oid ) AND !self::validate_OID( $oid )) {
+            $oid = '';
+        }
+
+        // ADD NUMERICAL FLAG IF SPECIFIED
         if( $numeric === true ) {
             $num = 'n';
         }
 
+        // EXECUTE COMMAND
         $version = self::create_Version_Tag( number: $this->version );
         $exec = "$cmd $version -c '$this->community' -Oset$num $this->ip $oid";
         exec( command: "$exec 2> /dev/null", output: $output );
@@ -258,5 +266,15 @@ class EasySNMP
             2 => '-v2c',
             default => '-v1',
         };
+    }
+
+
+
+/* VALIDATE AN OID
+---------------------------------------------------------------------------- */
+
+    public static function validate_OID( string $oid ) : int|false
+    {
+        return preg_match( pattern: "#^\.?([0-2])((\.0)|(\.[1-9][0-9]*))*$#", subject: $oid );
     }
 }

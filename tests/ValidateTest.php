@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 class ValidateTest extends TestCase
 {
 
-
 /*
 ---------------------------------------------------------------------------- */
 
@@ -19,8 +18,9 @@ class ValidateTest extends TestCase
         $output = EasySNMP::validate_Version();
 
         $this->assertIsInt( $output );
-        $this->assertEquals( 2, $output );
+        $this->assertEquals( expected: 2, actual: $output );
     }
+
 
 
 /*
@@ -32,10 +32,11 @@ class ValidateTest extends TestCase
         $output = EasySNMP::validate_Version();
 
         $this->assertIsInt( $output );
-        $this->assertEquals( 1, $output );
+        $this->assertEquals( expected: 1, actual: $output );
 
         $_ENV['SNMP_VERSION'] = 2;
     }
+
 
 
 /*
@@ -47,10 +48,11 @@ class ValidateTest extends TestCase
         $output = EasySNMP::validate_Version();
 
         $this->assertIsInt( $output );
-        $this->assertEquals( 2, $output );
+        $this->assertEquals( expected: 2, actual: $output );
 
         $_ENV['SNMP_VERSION'] = 2;
     }
+
 
 
 /*
@@ -61,8 +63,9 @@ class ValidateTest extends TestCase
         $output = EasySNMP::validate_Version( version: 2 );
 
         $this->assertIsInt( $output );
-        $this->assertEquals( 2, $output );
+        $this->assertEquals( expected: 2, actual: $output );
     }
+
 
 
 /*
@@ -73,8 +76,9 @@ class ValidateTest extends TestCase
         $output = EasySNMP::validate_Version( version: 3 );
 
         $this->assertIsInt( $output );
-        $this->assertEquals( 2, $output );
+        $this->assertEquals( expected: 2, actual: $output );
     }
+
 
 
 /*
@@ -88,8 +92,8 @@ class ValidateTest extends TestCase
         $ip = '8.8.8.8';
         $output = EasySNMP::validate_IP( ip: $ip );
 
-        $this->assertIsString( $output );
-        $this->assertEquals( $ip, $output );
+        $this->assertIsString( actual: $output );
+        $this->assertEquals( expected: $ip, actual: $output );
     }
 
 
@@ -103,11 +107,12 @@ class ValidateTest extends TestCase
 
     public function testValidate_IP_Bad() : void
     {
-        $this->expectException( \Exception::class );
+        $this->expectException( Exception::class );
         $ip = 'ABC';
         $output = EasySNMP::validate_IP( ip: $ip );
 
     }
+
 
 
 /*
@@ -120,9 +125,10 @@ class ValidateTest extends TestCase
     {
         $output = EasySNMP::create_Version_Tag( number: 1 );
 
-        $this->assertIsString( $output );
-        $this->assertEquals( '-v1', $output );
+        $this->assertIsString( actual: $output );
+        $this->assertEquals( expected: '-v1', actual: $output );
     }
+
 
 
 /*
@@ -135,9 +141,10 @@ class ValidateTest extends TestCase
     {
         $output = EasySNMP::create_Version_Tag( number: 2 );
 
-        $this->assertIsString( $output );
-        $this->assertEquals( '-v2c', $output );
+        $this->assertIsString( actual: $output );
+        $this->assertEquals( expected: '-v2c', actual: $output );
     }
+
 
 
 /*
@@ -151,8 +158,45 @@ class ValidateTest extends TestCase
         $output = EasySNMP::create_Version_Tag( number: 100 );
 
         $this->assertIsString( $output );
-        $this->assertEquals( '-v1', $output );
+        $this->assertEquals( expected: '-v1', actual: $output );
     }
+
+
+
+/* TEST OID VALIDATION GOOD
+---------------------------------------------------------------------------- */
+
+    /**
+     * @throws Exception
+     */
+    public function testOidValidationGood() : void
+    {
+        $output = EasySNMP::validate_OID( oid: '1.3.6.1.2.1.31.1.1.1.18.1' );
+
+        $this->assertIsInt( actual: $output );
+        $this->assertEquals( expected: 1, actual: $output );
+    }
+
+
+
+/* TEST OID VALIDATION BAD
+---------------------------------------------------------------------------- */
+
+    /**
+     * @throws Exception
+     */
+    public function testOidValidationBad() : void
+    {
+        $output = EasySNMP::validate_OID( oid: 'ABC' );
+
+        $this->assertIsInt( actual: $output );
+        $this->assertEquals( expected: 0, actual: $output );
+    }
+
+
+
+/* SET UP BEFORE CLASS
+---------------------------------------------------------------------------- */
 
     /**
      * @throws Exception
