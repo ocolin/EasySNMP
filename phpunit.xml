@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        bootstrap="vendor/autoload.php"
+        colors="true"
+        stopOnFailure="true"
+        beStrictAboutChangesToGlobalState="true"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
+        cacheDirectory=".phpunit.cache"
+        displayDetailsOnTestsThatTriggerWarnings="true"
+>
+    <testsuites>
+        <testsuite name="SNMP">
+            <file>tests/ValidateTest.php</file>
+            <file>tests/ExecuteTest.php</file>
+            <file>tests/WalkTest.php</file>
+            <file>tests/GetTest.php</file>
+        </testsuite>
+    </testsuites>
+</phpunit>
