@@ -202,7 +202,7 @@ class EasySNMP
             $output->value = (int)$output->value;
         }
 
-        // GET INDEX FROM NAME
+        // SEPARATE INDEX FROM OID NAME
         $parts = explode( separator: '.', string: $oid );
         $output->index = (int)array_pop( array: $parts);
         $output->name = implode( separator: '.', array: $parts );
