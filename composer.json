@@ -18,7 +18,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Cruzio\\lib\\EasySNMP\\": "src/",
+            "Ocolin\\EasySNMP\\": "src/",
             "Tests\\": "tests/"
         }
     },

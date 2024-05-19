@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace Cruzio\lib\EasySNMP;
+namespace Ocolin\EasySNMP;
 
 use Exception;
 use Ocolin\Env\EasyEnv;

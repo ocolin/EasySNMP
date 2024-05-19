@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use Cruzio\lib\EasySNMP\EasySNMP;
+use Ocolin\EasySNMP\EasySNMP;
 use Exception;
 use Ocolin\Env\EasyEnv;
 use PHPUnit\Framework\TestCase;
