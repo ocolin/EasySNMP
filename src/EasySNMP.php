@@ -237,6 +237,9 @@ class EasySNMP
         elseif( str_contains( haystack: $row, needle: ': ' )) {
             list( $output->type, $output->value ) = explode( separator: ': ', string: $row  );
         }
+        else {
+            $output->value = $row;
+        }
 
         // SOME TYPES USE INTEGER VALUES
         if( in_array(needle: strtoupper($output->type), haystack: self::$int_types )) {
