@@ -51,8 +51,8 @@ class EasySNMP
     public function __construct(
          string $ip,
         ?string $community = null,
-           ?int $version = null,
-           bool $local = false
+           ?int $version   = null,
+           bool $local     = false
     ) {
         if( $local === true ) {
             EasyEnv::loadEnv(path: __DIR__ . '/../.env' );
@@ -132,15 +132,16 @@ class EasySNMP
      * @throws Exception
      */
     public function walk(
-        string $oid = '',
-          bool $bulk = true,
-          bool $numeric = false
+        string $oid       = '',
+          bool $bulk      = true,
+          bool $numeric   = false,
+          bool $enumerate = false
     ) : array
     {
         $cmd = $bulk ? 'snmpbulkwalk' : 'snmpwalk';
 
         $output = [];
-        $rows =  $this->execute( cmd: $cmd, oid: $oid, numeric: $numeric );
+        $rows =  $this->execute( cmd: $cmd, oid: $oid, numeric: $numeric, enumeration: $enumerate );
 
         foreach( $rows as $row )
         {
@@ -165,7 +166,8 @@ class EasySNMP
     public function execute(
         string $cmd,
         string $oid = '',
-          bool $numeric = true
+          bool $numeric = true,
+          bool $enumeration = true
     ): array
     {
         $allowed_commands = [
@@ -175,6 +177,7 @@ class EasySNMP
             'snmpgetnext'
         ];
         $num = '';
+        $enum = 'e';
 
         // VALIDATE COMMAND TO SEND
         if( !in_array( needle: $cmd, haystack: $allowed_commands )) {
@@ -191,9 +194,14 @@ class EasySNMP
             $num = 'n';
         }
 
+        if( $enumeration === false ) {
+            $enum = '';
+        }
+
+
         // EXECUTE COMMAND
         $version = self::create_Version_Tag( number: $this->version );
-        $exec = "$cmd $version -c '$this->community' -Oset$num $this->ip $oid";
+        $exec = "$cmd $version -c '$this->community' -Os{$enum}t$num $this->ip $oid";
         exec( command: "$exec 2> /dev/null", output: $output );
 
         return $output;
