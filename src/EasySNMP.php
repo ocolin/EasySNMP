@@ -135,7 +135,7 @@ class EasySNMP
         string $oid       = '',
           bool $bulk      = true,
           bool $numeric   = false,
-          bool $enumerate = false
+          bool $enumerate = true
     ) : array
     {
         $cmd = $bulk ? 'snmpbulkwalk' : 'snmpwalk';
