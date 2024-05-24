@@ -235,7 +235,7 @@ class EasySNMP
 
         // IF THERE IS BOTH VALUE AND TYPE
         elseif( str_contains( haystack: $row, needle: ': ' )) {
-            list( $output->type, $output->value ) = explode( separator: ': ', string: $row  );
+            list( $output->type, $output->value ) = explode( separator: ': ', string: $row,limit: 2 );
         }
         else {
             $output->value = $row;
