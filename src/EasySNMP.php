@@ -242,16 +242,13 @@ class EasySNMP
         }
 
         // SOME TYPES USE INTEGER VALUES
-        if( in_array(needle: strtoupper($output->type), haystack: self::$int_types )) {
+        if( in_array( needle: strtoupper($output->type), haystack: self::$int_types )) {
             $output->value = (int)$output->value;
         }
 
-        // SEPARATE INDEX FROM OID NAME
-        /*
-        $parts = explode( separator: '.', string: $oid );
-        $output->index = (int)array_pop( array: $parts);
-        $output->name = implode( separator: '.', array: $parts );
-        */
+        if( gettype( $output->value ) === 'string' ) {
+            $output->value = trim( string: $output->value, characters: '"' );
+        }
 
         return $output;
     }
