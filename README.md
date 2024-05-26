@@ -4,7 +4,7 @@ This is a bare bones SNMP client that is very simple to use at the cost of funct
 
 ## CREATING SNMP CLIENT
 
-```
+```php
 $client = new EasySNMP(
     ip: '1.2.3.4',
     version: 2,
@@ -21,13 +21,13 @@ $client = new EasySNMP(
 
 ### Client using defaults:
 
-```
+```php
 $client = new EasySNMP( ip: '1.2.3.4' );
 ```
 
 ## SNMP Walk
 
-```
+```php
 $client->walk(
     oid: '1.1.1.1',
     bulk: true,
@@ -44,13 +44,13 @@ $client->walk(
 
 ### Walk using defaults:
 
-```
+```php
 $client->walk( oid: '1.1.1' );
 ```
 
 ## SNMP Get
 
-```
+```php
 $client->get(
     oid: '1.2.3',
     numeric: false
@@ -65,7 +65,7 @@ $client->get(
 
 ### Get using defaults:
 
-``` 
+```php
 $client->get( oid: '1.2.3' );
 ```
 
