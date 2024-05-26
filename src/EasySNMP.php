@@ -78,7 +78,7 @@ class EasySNMP
     {
         $output = $this->execute( cmd: 'snmpget', oid: $oid, numeric: $numeric );
 
-        if( !empty( $output[0])) {
+        if( !empty( $output[0] )) {
             if( str_contains(
                 haystack: $output[0],
                   needle: 'No Such Object available on this agent at this OID'
@@ -86,7 +86,7 @@ class EasySNMP
                 return null;
             }
 
-            return self::parse_Row( $output[0]);
+            return self::parse_Row( $output[0] );
         }
 
         return null;
@@ -106,7 +106,7 @@ class EasySNMP
     {
         $output = $this->execute( cmd: 'snmpgetnext', oid: $oid, numeric: $numeric );
 
-        if( !empty( $output[0])) {
+        if( !empty( $output[0] )) {
             if( str_contains(
                 haystack: $output[0],
                   needle: 'No Such Object available on this agent at this OID'
@@ -141,7 +141,12 @@ class EasySNMP
         $cmd = $bulk ? 'snmpbulkwalk' : 'snmpwalk';
 
         $output = [];
-        $rows =  $this->execute( cmd: $cmd, oid: $oid, numeric: $numeric, enumeration: $enumerate );
+        $rows =  $this->execute(
+                    cmd: $cmd,
+                    oid: $oid,
+                numeric: $numeric,
+            enumeration: $enumerate
+        );
 
         foreach( $rows as $row )
         {
@@ -165,8 +170,8 @@ class EasySNMP
      */
     public function execute(
         string $cmd,
-        string $oid = '',
-          bool $numeric = true,
+        string $oid         = '',
+          bool $numeric     = true,
           bool $enumeration = true
     ): array
     {
@@ -235,7 +240,11 @@ class EasySNMP
 
         // IF THERE IS BOTH VALUE AND TYPE
         elseif( str_contains( haystack: $row, needle: ': ' )) {
-            list( $output->type, $output->value ) = explode( separator: ': ', string: $row,limit: 2 );
+            list( $output->type, $output->value ) = explode(
+                separator: ': ',
+                   string: $row,
+                    limit: 2
+            );
         }
         else {
             $output->value = $row;
@@ -246,7 +255,7 @@ class EasySNMP
             $output->value = (int)$output->value;
         }
 
-        if( gettype( $output->value ) === 'string' ) {
+        if( is_string( $output->value )) {
             $output->value = trim( string: $output->value, characters: '"' );
         }
 
@@ -270,7 +279,7 @@ class EasySNMP
              filter: FILTER_VALIDATE_IP,
             options: FILTER_FLAG_IPV4
         )) {
-            throw new Exception( message: "Must use a valid IPv4 Address." );
+            throw new Exception( message: "$ip is not a valid IPv4 address." );
         }
 
         return $ip;
