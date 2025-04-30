@@ -2,15 +2,9 @@
     "name": "ocolin/easysnmp",
     "description": "Bare bones SNMP library",
     "type": "library",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ocolin/EasyEnv"
-        }
-    ],
     "require": {
         "php": ">=8.0",
-        "ocolin/easyenv": "^v1.0"
+        "ocolin/easyenv": "^v1.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.1",
