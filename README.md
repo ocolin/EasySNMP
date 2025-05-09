@@ -1,80 +1,87 @@
 # EasySNMP
 
-This is a bare bones SNMP client that is very simple to use at the cost of functionality. It was designed for grabbing data from Mikrotik routers. However, that does not mean it is limited to tht use. 
+## About
 
-## CREATING SNMP CLIENT
+A bare-bones basic SNMP client. It can be configured either by usein constructor arguments, or using environment variables.
+
+## Constructor Arguments
+
+- $ip - IP address of device to query.
+- $community - Community string of device to query.
+- $version - SNMP version of device. Defaults to 2. 3 is not yet supported.
+- $prefix - Environment variable prefix. Used when you may be using multiple devices with different environment variable.
+
+## Environment Variables
+
+### Default Variables 
+
+- SNMP_IP - IP address of device to query.
+- SNMP_COMMUNITY - Community string of device to query.
+- SNMP_VERSION - SNMP version of device. Defaults to 2. 3 is not yet supported.
+
+### Prefixed Variables
+
+Example with the prefix value 'PREFIX':
+
+- PREFIX_SNMP_IP - IP address of device to query.
+- PREFIX_SNMP_COMMUNITY - Community string of device to query.
+- PREFIX_SNMP_VERSION - SNMP version of device. Defaults to 2. 3 is not yet supported.
+
+## Examples
+
+### Basic Constructor Arguments
 
 ```php
-$client = new EasySNMP(
-    ip: '1.2.3.4',
-    version: 2,
-    community: 'public'
-    local: true
-)
+$snmp = new \Ocolin\EasySNMP\SNMP(
+           ip: '192.168.1.1',
+    community: 'public',
+      version: 2
+);
 ```
-### Parameters:
 
-- **IP** - IPv4 address of the device
-- **Version** - SNMP version int 1 or 2. v3 is not supported. Optional parameter. It will default to version 2 if not specified. Or it will use environment variable **SNMP_COMMUNITY** if it is set and no parameters is given.
-- **Community** - SNMP community string. Will default to **public** if not provided. May also use environment variable **SNMP_VERSION** if set and no parameters is given.
-- **Local** - Tells client to load environment variables from .env file in root of EasySNMP directory. This is useful if the module is being used as a stand-alone library and not in a Composer project.
-
-### Client using defaults:
-
+### Environment Constructor
 ```php
-$client = new EasySNMP( ip: '1.2.3.4' );
+$_ENV['SNMP_IP'] = '192.168.1.1';
+$_ENV['SNMP_COMMUNITY'] = 'public';
+$_ENV['SNMP_VERSION'] = 2;
+
+$snmp = new \Ocolin\EasySNMP\SNMP();
 ```
 
-## SNMP Walk
-
+### Environment Prefix Constructor
 ```php
-$client->walk(
-    oid: '1.1.1.1',
-    bulk: true,
+$_ENV['MY_SNMP_IP'] = '192.168.1.1';
+$_ENV['MY_SNMP_COMMUNITY'] = 'public';
+$_ENV['MY_SNMP_VERSION'] = 2;
+
+$snmp = new \Ocolin\EasySNMP\SNMP( prefix: 'MY_' );
+```
+
+### SNMP Get
+```php
+$output = $snmp->get(
+        oid: '.1.3.6.1.2.1.1.1.0',
     numeric: false
 );
 ```
 
-### Parameters
-
-- **OID** - SNMP OID of tree to walk. If left blank it will use default SNMP tree.
-- **Bulk** - Defaults to true. Us snmpbulkwalk instead of snmpwalk command.
-- **Numeric** - Defaults to false. Return numerical OID names only.
-- RETURN - Array of objects
-
-### Walk using defaults:
-
+### SNMP Get Next
 ```php
-$client->walk( oid: '1.1.1' );
-```
-
-## SNMP Get
-
-```php
-$client->get(
-    oid: '1.2.3',
-    numeric: false
+$output = $snmp->getnext(
+        oid: '.1.3.6.1.2.1.1.1.0',
 );
 ```
 
-### Parameters
-
-- OID - SNMP OID to query
-- Numeric - Defaults to false. Output only numerical OID names.
-- RETURN - A data object
-
-### Get using defaults:
-
+### SNMP Walk
 ```php
-$client->get( oid: '1.2.3' );
+$output = $snmp->walk();
 ```
 
-## Data Object
-
-Depending on the command used, the output will be an array of objects, a single object, or null if nothing is found. This is the object structure.
-
-- **origin** - The original string of the unaltered row
-- **type**   - The value type of the row
-- **value**  - The data value of the row
-- **index**  - Integer representing the index of the row
-- **name**   - OID name of the row
+### SNMP Bulk Walk
+```php
+$output = $snmp->walk(
+              oid: '.1.3.6.1.2.1.1.1.0',
+             bulk: true,
+        enumerate: true
+);
+```

@@ -28,7 +28,6 @@ class SNMP
     private string $version;
 
 
-
 /* CONSTRUCTOR
 ---------------------------------------------------------------------------- */
 
@@ -54,9 +53,18 @@ class SNMP
         $this->version = self::get_Version( version: $version, prefix: $prefix );
     }
 
-/*
+
+
+/* SNMP GET
 ---------------------------------------------------------------------------- */
 
+    /**
+     * @param string $oid SNMP OID to get.
+     * @param bool $numeric Return row names as numerical OIDs.
+     * @return object|null Return SNMP object or NULL if it fails.
+     * @throws EasySnmpInvalidCmdError
+     * @throws EasySnmpInvalidOidError
+     */
     public function get( string $oid, bool $numeric = false ) : object|null
     {
         $output = $this->execute( command: 'snmpget', oid: $oid, numeric: $numeric );
@@ -80,9 +88,9 @@ class SNMP
 ---------------------------------------------------------------------------- */
 
     /**
-     * @param string $oid Next OID to query
-     * @param bool $numeric Use numerical output
-     * @return object|null Data object or null if not found
+     * @param string $oid Next OID to query.
+     * @param bool $numeric Use numerical output.
+     * @return object|null Data object or null if not found.
      * @throws EasySnmpInvalidCmdError
      * @throws EasySnmpInvalidOidError
      */
@@ -109,13 +117,14 @@ class SNMP
     }
 
 
+
 /* PERFORM AN SNMP WALK OVER AN SNMP TREE
 ---------------------------------------------------------------------------- */
 
     /**
-     * @param string $oid Root OID to start walk from
-     * @param bool $numeric Use numerical names
-     * @return object[] Array of row objects
+     * @param string $oid Root OID to start walk from. Omit for full tree.
+     * @param bool $numeric Use numerical names.
+     * @return object[] Array of row objects.
      * @throws EasySnmpInvalidCmdError
      * @throws EasySnmpInvalidOidError
      */
@@ -185,9 +194,14 @@ class SNMP
     }
 
 
+
 /* PARSE A ROW FROM SNMP CLI OUTPUT
 ---------------------------------------------------------------------------- */
 
+    /**
+     * @param string $row SNMP output text row.
+     * @return stdClass Object version of row output.
+     */
     public static function parse_Row( string $row ) : object
     {
         $output = new stdClass();
@@ -234,8 +248,9 @@ class SNMP
     }
 
 
-    /*
-    ---------------------------------------------------------------------------- */
+
+/* GET IP ADDRESS
+---------------------------------------------------------------------------- */
 
     /**
      * @param string|null $ip IP address from optional argument.
@@ -244,7 +259,7 @@ class SNMP
      */
     public static function get_IP(
         ?string $ip = null,
-        string $prefix = ''
+         string $prefix = ''
     ) : string
     {
         if( empty( $prefix ) AND !empty( $_ENV['SNMP_IP'])) {
@@ -269,7 +284,7 @@ class SNMP
 
 
 
-/*
+/* GET SNMP VERSION
 ---------------------------------------------------------------------------- */
 
     /**
@@ -297,7 +312,7 @@ class SNMP
 
 
 
-/*
+/* GET SNMP COMMUNITY STRING
 ---------------------------------------------------------------------------- */
 
     /**
@@ -329,6 +344,7 @@ class SNMP
     }
 
 
+
 /* LIST OF SUPPORTED COMMAND
 ---------------------------------------------------------------------------- */
 
@@ -350,7 +366,7 @@ class SNMP
 ---------------------------------------------------------------------------- */
 
     /**
-     * @param string $oid OID of query
+     * @param string $oid OID of query.
      * @return void
      * @throws EasySnmpInvalidOidError
      */
@@ -365,7 +381,8 @@ class SNMP
     }
 
 
-/*
+
+/* GET LIST OF VALID SNMP INTEGER TYPES
 ---------------------------------------------------------------------------- */
 
     /**
@@ -382,5 +399,4 @@ class SNMP
             'GUAGE32'
         ];
     }
-
 }
