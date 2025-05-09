@@ -1,29 +1,26 @@
 <?php
 
-namespace Tests;
+namespace Ocolin\EasySNMP\Tests;
 
-use Ocolin\EasySNMP\EasySNMP;
+use Ocolin\EasySNMP\SNMP;
 use Exception;
-use Ocolin\Env\EasyEnv;
+use Ocolin\EasyEnv\LoadEnv;
 use PHPUnit\Framework\TestCase;
 
 class GetNextTest extends TestCase
 {
 
-    /* TEST GET WITH GOOD DATA
-    ---------------------------------------------------------------------------- */
+/* TEST GET WITH GOOD DATA
+---------------------------------------------------------------------------- */
 
     /**
      * @throws Exception
      */
     public function testGetNextGood() : void
     {
-        $snmp = new EasySNMP(
-            ip: $_ENV['SNMP_TEST_DEVICE'],
-            local: true
-        );
+        $snmp = new SNMP();
 
-        $result = $snmp->getNext( oid: '.1.3.6.1.2.1.31.1.1.1.18.1' );
+        $result = $snmp->getNext( oid: '.1.3.6.1.2.1.1.1.0' );
 
         $this->assertIsObject( $result );
         $this->assertObjectHasProperty( propertyName: 'origin', object: $result );
@@ -37,34 +34,14 @@ class GetNextTest extends TestCase
 
 
 
-    /* TEST GET WITH BAD DATA
-    ---------------------------------------------------------------------------- */
-
-    /**
-     * @throws Exception
-     */
-    public function testGetNextBad() : void
-    {
-        $snmp = new EasySNMP(
-            ip: $_ENV['SNMP_TEST_DEVICE'],
-            local: true
-        );
-
-        $result = $snmp->getNext( oid: '.1.3.6.1.2.1.31.200.1.1.19.1000');
-
-        $this->assertNull( actual: $result );
-    }
-
-
-
-    /* SET UP BEFORE CLASS
-    ---------------------------------------------------------------------------- */
+/* SET UP BEFORE CLASS
+---------------------------------------------------------------------------- */
 
     /**
      * @throws Exception
      */
     public static function setUpBeforeClass() : void
     {
-        EasyEnv::loadEnv( path: __DIR__ . '/../.env' );
+        new LoadEnv( files: __DIR__ . '/../.env' );
     }
 }

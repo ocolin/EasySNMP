@@ -11,11 +11,10 @@
 >
     <testsuites>
         <testsuite name="SNMP">
-            <file>tests/ValidateTest.php</file>
-            <file>tests/ExecuteTest.php</file>
-            <file>tests/WalkTest.php</file>
+             <file>tests/UnitTest.php</file>
             <file>tests/GetTest.php</file>
             <file>tests/GetNextTest.php</file>
+            <file>tests/WalkTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

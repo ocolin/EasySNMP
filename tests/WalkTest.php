@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Ocolin\EasySNMP\Tests;
 
-use Ocolin\EasySNMP\EasySNMP;
+use Ocolin\EasySNMP\SNMP;
 use Exception;
-use Ocolin\Env\EasyEnv;
+use Ocolin\EasyEnv\LoadEnv;
 use PHPUnit\Framework\TestCase;
 
 class WalkTest extends TestCase
@@ -18,12 +18,9 @@ class WalkTest extends TestCase
      */
     public function testBulkWalk() : void
     {
-        $snmp = new EasySNMP(
-               ip: $_ENV['SNMP_TEST_DEVICE'],
-            local: true
-        );
+        $snmp = new SNMP();
 
-        $result = $snmp->walk( oid: '.1.3.6.1.2.1.25.2' );
+        $result = $snmp->walk( oid: '.1.3.6.1.2.1.1.9.1.2' );
 
         $this->assertIsArray(  actual: $result );
         $this->assertNotEmpty( actual: $result );
@@ -47,12 +44,9 @@ class WalkTest extends TestCase
      */
     public function testWalk() : void
     {
-        $snmp = new EasySNMP(
-               ip: $_ENV['SNMP_TEST_DEVICE'],
-            local: true
-        );
+        $snmp = new SNMP();
 
-        $result = $snmp->walk( oid: '.1.3.6.1.2.1.25.2', bulk: false );
+        $result = $snmp->walk( oid: '.1.3.6.1.2.1.1.9.1.2', bulk: false );
 
         $this->assertIsArray(  actual: $result );
         $this->assertNotEmpty( actual: $result );
@@ -76,6 +70,6 @@ class WalkTest extends TestCase
      */
     public static function setUpBeforeClass() : void
     {
-        EasyEnv::loadEnv( path: __DIR__ . '/../.env' );
+        new LoadEnv( files: __DIR__ . '/../.env' );
     }
 }

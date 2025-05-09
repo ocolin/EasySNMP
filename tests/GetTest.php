@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests;
+namespace Ocolin\EasySNMP\Tests;
 
-use Ocolin\EasySNMP\EasySNMP;
+use Ocolin\EasySNMP\SNMP;
 use Exception;
-use Ocolin\Env\EasyEnv;
+use Ocolin\EasyEnv\LoadEnv;
 use PHPUnit\Framework\TestCase;
 
 class GetTest extends TestCase
@@ -18,12 +18,9 @@ class GetTest extends TestCase
      */
     public function testGetGood() : void
     {
-        $snmp = new EasySNMP(
-            ip: $_ENV['SNMP_TEST_DEVICE'],
-            local: true
-        );
+        $snmp = new SNMP();
 
-        $result = $snmp->get( oid: '.1.3.6.1.2.1.31.1.1.1.18.1' );
+        $result = $snmp->get( oid: '.1.3.6.1.2.1.1.1.0' );
 
         $this->assertIsObject( $result );
         $this->assertObjectHasProperty( propertyName: 'origin', object: $result );
@@ -45,11 +42,7 @@ class GetTest extends TestCase
      */
     public function testGetBad() : void
     {
-        $snmp = new EasySNMP(
-               ip: $_ENV['SNMP_TEST_DEVICE'],
-            local: true
-        );
-
+        $snmp = new SNMP();
         $result = $snmp->get( oid: '.1.3.6.1.2.1.31.200.1.1.19.1000');
 
         $this->assertNull( actual: $result );
@@ -65,6 +58,6 @@ class GetTest extends TestCase
      */
     public static function setUpBeforeClass() : void
     {
-        EasyEnv::loadEnv( path: __DIR__ . '/../.env' );
+        new LoadEnv( files: __DIR__ . '/../.env' );
     }
 }
