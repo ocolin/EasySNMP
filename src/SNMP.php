@@ -61,11 +61,11 @@ class SNMP
     /**
      * @param string $oid SNMP OID to get.
      * @param bool $numeric Return row names as numerical OIDs.
-     * @return object|null Return SNMP object or NULL if it fails.
+     * @return SnmpObject|null Return SNMP object or NULL if it fails.
      * @throws EasySnmpInvalidCmdError
      * @throws EasySnmpInvalidOidError
      */
-    public function get( string $oid, bool $numeric = false ) : object|null
+    public function get( string $oid, bool $numeric = false ) : SnmpObject|null
     {
         $output = $this->execute( command: 'snmpget', oid: $oid, numeric: $numeric );
 
@@ -84,17 +84,18 @@ class SNMP
     }
 
 
+
 /* PERFORM AN SNMP GET NEXT REQUEST
 ---------------------------------------------------------------------------- */
 
     /**
      * @param string $oid Next OID to query.
      * @param bool $numeric Use numerical output.
-     * @return object|null Data object or null if not found.
+     * @return SnmpObject|null Data object or null if not found.
      * @throws EasySnmpInvalidCmdError
      * @throws EasySnmpInvalidOidError
      */
-    public function getNext( string $oid, bool $numeric = false ) : object|null
+    public function getNext( string $oid, bool $numeric = false ) : SnmpObject|null
     {
         $output = $this->execute(
             command: 'snmpgetnext',
@@ -124,7 +125,7 @@ class SNMP
     /**
      * @param string $oid Root OID to start walk from. Omit for full tree.
      * @param bool $numeric Use numerical names.
-     * @return object[] Array of row objects.
+     * @return SnmpObject[] Array of row objects.
      * @throws EasySnmpInvalidCmdError
      * @throws EasySnmpInvalidOidError
      */
@@ -174,17 +175,23 @@ class SNMP
           bool $enumeration = true
     ) : array
     {
-        if( !in_array( needle: $command, haystack: self::allowed_Commands())) {
+        if(
+            !in_array(
+                  needle: $command,
+                haystack: self::allowed_Commands(),
+                  strict: true
+            )
+        ) {
             throw new EasySnmpInvalidCmdError(
                 message: "Invalid SNMP command: '{$command}'"
             );
         }
         self::validate_OID( oid: $oid );
-        $num = '';
+        $num  = '';
         $enum = 'e';
 
         // ADD NUMERICAL FLAG IF SPECIFIED
-        if( $numeric === true ) { $num = 'n'; }
+        if( $numeric === true )      { $num = 'n'; }
         if( $enumeration === false ) { $enum = ''; }
 
         $exec = "$command {$this->version} -c '$this->community' -Os{$enum}t$num $this->ip $oid";
@@ -200,11 +207,11 @@ class SNMP
 
     /**
      * @param string $row SNMP output text row.
-     * @return stdClass Object version of row output.
+     * @return SnmpObject Object version of row output.
      */
-    public static function parse_Row( string $row ) : object
+    public static function parse_Row( string $row ) : SnmpObject
     {
-        $output = new stdClass();
+        $output = new SnmpObject();
         $output->origin = $row;
         $output->type   = '';
         $output->value  = '';
