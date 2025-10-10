@@ -136,7 +136,10 @@ class SNMP
           bool $enumerate = true
     ) : array
     {
-        $cmd = $bulk ? 'snmpbulkwalk' : 'snmpwalk';
+        if( $this->version === '-v1' ) { $cmd = 'snmpwalk'; }
+        else {
+            $cmd = $bulk ? 'snmpbulkwalk' : 'snmpwalk';
+        }
 
         $output = [];
         $rows =  $this->execute(
@@ -148,7 +151,9 @@ class SNMP
 
         foreach( $rows as $row )
         {
-            $output[] = self::parse_Row( row: $row );
+            if( $row !== 'End of MIB' ) {
+                $output[] = self::parse_Row(row: $row);
+            }
         }
 
         return $output;
