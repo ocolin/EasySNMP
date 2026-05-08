@@ -1,3 +1,6 @@
+> [!WARNING]
+> v3.0.0 is a complete rewrite and is not compatible with v1.x or v2.x.
+> Requires PHP 8.4+ and FreeDSx SNMP.
 ![Packagist Version](https://img.shields.io/packagist/v/ocolin/easysnmp)
 ![PHP Version](https://img.shields.io/packagist/dependency-v/ocolin/easysnmp/php)
 ![License](https://img.shields.io/packagist/l/ocolin/easysnmp)
