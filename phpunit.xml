@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         bootstrap="vendor/autoload.php"
         colors="true"
         stopOnFailure="true"
         beStrictAboutChangesToGlobalState="true"
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
         cacheDirectory=".phpunit.cache"
         displayDetailsOnTestsThatTriggerWarnings="true"
+        displayDetailsOnTestsThatTriggerNotices="true"
+        displayDetailsOnTestsThatTriggerDeprecations="true"
 >
+    <groups>
+        <exclude>
+            <group>integration</group>
+        </exclude>
+    </groups>
     <testsuites>
-        <testsuite name="SNMP">
-             <file>tests/UnitTest.php</file>
-            <file>tests/GetTest.php</file>
-            <file>tests/GetNextTest.php</file>
-            <file>tests/WalkTest.php</file>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+<!--            <directory>tests/Integration</directory>-->
         </testsuite>
     </testsuites>
+
+    <source>
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+
+    <coverage>
+        <report>
+            <html outputDirectory="coverage"/>
+            <text outputFile="php://stdout" showOnlySummary="true"/>
+        </report>
+    </coverage>
 </phpunit>

@@ -4,4 +4,5 @@ composer.phar
 !/.gitignore
 !/.env.example
 test.php
-
+dev
+coverage
