@@ -64,7 +64,7 @@ class EasySNMP
      * @throws ConnectionException Error connecting to device.
      * @throws SnmpRequestException Error getting device data.
      */
-    private function bulkWalk( string $oid,  int $maxRepetitions = 20 ) : array
+    protected function bulkWalk( string $oid,  int $maxRepetitions = 20 ) : array
     {
         $baseOid = $oid;
         $results = [];
@@ -104,7 +104,7 @@ class EasySNMP
      * @throws ConnectionException Error connecting to device.
      * @throws SnmpRequestException Error getting data from device.
      */
-    private function getColumn( string $oid, int $count = 20 ) : array
+    protected function getColumn( string $oid, int $count = 20 ) : array
     {
         $output = [];
         foreach(
@@ -143,7 +143,7 @@ class EasySNMP
      * @throws ConnectionException Error connecting to device.
      * @throws SnmpRequestException Error getting SNMP data.
      */
-    private function getCompositeColumn( string $oid, int $count = 20 ) : array
+    protected function getCompositeColumn( string $oid, int $count = 20 ) : array
     {
         $output = [];
         foreach(
@@ -180,7 +180,7 @@ class EasySNMP
      * @param int $index Index of array section.
      * @return ?string String value.
      */
-    private static function strVal( array $data, string $key, int $index ) : ?string
+    protected static function strVal( array $data, string $key, int $index ) : ?string
     {
         return isset( $data[$key][$index] ) ? (string)$data[$key][$index] : null;
     }
@@ -198,7 +198,7 @@ class EasySNMP
      * @param int $index Index of array section.
      * @return ?int Integer value.
      */
-    private static function intVal( array $data, string $key, int $index ) : ?int
+    protected static function intVal( array $data, string $key, int $index ) : ?int
     {
         return isset( $data[$key][$index] ) ? (int)$data[$key][$index] : null;
     }
