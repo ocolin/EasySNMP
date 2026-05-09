@@ -207,6 +207,33 @@ foreach( $arp as $entry ) {
 $lldp_rem = Format::LldpRemTable( $snmp->getLldpRemTable());
 ```
 
+### IP address table
+
+```php
+$addresses = $snmp->getIpAddrTable();
+
+foreach( $addresses as $entry ) {
+    echo $entry->address;    // 10.0.0.1
+    echo $entry->interface;  // Interface index — matches ifTable
+    echo $entry->netmask;    // 255.255.255.0
+    echo $entry->bcast;      // Broadcast address bit
+    echo $entry->reasmMaxSize; // Max datagram size for reassembly
+}
+
+// Fetch only specific columns
+$addresses = $snmp->getIpAddrTable( columns: ['address', 'interface', 'netmask'] );
+```
+
+### IpAddrTable properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `$address` | `?string` | IP address |
+| `$interface` | `?int` | Interface index — matches `IfTable` index |
+| `$netmask` | `?string` | Subnet mask |
+| `$bcast` | `?int` | Broadcast address bit |
+| `$reasmMaxSize` | `?int` | Maximum datagram size for reassembly |
+
 ---
 
 ## Formatting helpers
