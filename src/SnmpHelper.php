@@ -20,10 +20,10 @@ class SnmpHelper
     {
         if( $value === null ) { return null; }
 
-        return implode(
+        return strtoupper( implode(
             separator: ':',
                 array: str_split( string: bin2hex( $value ), length: 2 )
-        );
+        ));
     }
 
 
@@ -73,6 +73,7 @@ class SnmpHelper
             188 => 'radioMAC',
             203 => 'sipTg',
             204 => 'sipSig',
+            209 => 'bridge',
             230 => 'adsl2',
             248 => 'pip',
             250 => 'gpon',
@@ -152,6 +153,51 @@ class SnmpHelper
             3   => 'dynamic',
             4   => 'static',
             default => (string)$value,
+        };
+    }
+
+
+
+/* FORMAT UPTIME
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?int $ticks Integer representing uptime.
+     * @return ?string Human-readable time.
+     */
+    public static function formatUpTime( ?int $ticks ) : ?string
+    {
+        if( $ticks === null ) { return null; }
+
+        $seconds = (int)( $ticks / 100 );
+        $days    = (int)( $seconds / 86400 );
+        $seconds = $seconds % 86400;
+        $hours   = (int)( $seconds / 3600 );
+        $seconds = $seconds % 3600;
+        $minutes = (int)( $seconds / 60 );
+        $seconds = $seconds % 60;
+
+        return "{$days}d {$hours}h {$minutes}m {$seconds}s";
+    }
+
+
+
+/* FORMAT PORT SPEED
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?int $bps Integer version of speed.
+     * @return ?string String version of speed.
+     */
+    public static function formatSpeed( ?int $bps ) : ?string
+    {
+        if( $bps === null ) { return null; }
+
+        return match(true) {
+            $bps >= 1_000_000_000 => ( $bps / 1_000_000_000 ) . ' Gbps',
+            $bps >= 1_000_000     => ( $bps / 1_000_000 ) . ' Mbps',
+            $bps >= 1_000         => ( $bps / 1_000 ) . ' Kbps',
+            default               => $bps . ' bps',
         };
     }
 }

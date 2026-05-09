@@ -56,23 +56,6 @@ $snmp = new EasySNMP( config: $config );
 If no explicit values are passed, `Config` falls back to environment variables
 using the `EASY_SNMP_` prefix by default:
 
-```env
-EASY_SNMP_HOST=10.0.0.1
-EASY_SNMP_COMMUNITY=public
-EASY_SNMP_PORT=161
-EASY_SNMP_VERSION=2
-EASY_SNMP_TIMEOUT_CONNECT=5
-EASY_SNMP_TIMEOUT_READ=10
-EASY_SNMP_USER=
-EASY_SNMP_AUTH_PWD=
-EASY_SNMP_PRIV_PWD=
-EASY_SNMP_PRIV_MECH=
-EASY_SNMP_AUTH_MECH=
-EASY_SNMP_ENGINE_ID=
-EASY_SNMP_CONTEXT_NAME=
-EASY_SNMP_USE_AUTH=
-EASY_SNMP_USE_PRIV=
-```
 
 ```php
 // Reads from EASY_SNMP_* environment variables
@@ -102,6 +85,30 @@ $mikrotik = new EasySNMP( config: new Config( prefix: 'MIKROTIK' ) );
 Prefix values are case-insensitive — `'juniper'` and `'JUNIPER'` both resolve
 to `JUNIPER_SNMP_*`.
 
+### Configuration reference
+
+The `EASY` prefix in all ENV variable names is replaced by your custom prefix
+when using the `$prefix` parameter. For example, with `prefix: 'JUNIPER'` the
+variable `EASY_SNMP_HOST` becomes `JUNIPER_SNMP_HOST`.
+
+| ENV Variable | Constructor Argument | Type | Default | Description |
+|---|---|---|---|---|
+| `EASY_SNMP_HOST` | `$host` | `?string` | `null` | Hostname or IP of device |
+| `EASY_SNMP_COMMUNITY` | `$community` | `?string` | `null` | SNMP v1/v2c community string |
+| `EASY_SNMP_PORT` | `$options['port']` | `?int` | `161` | SNMP port |
+| `EASY_SNMP_VERSION` | `$options['version']` | `?int` | `2` | SNMP version (1, 2, 3) |
+| `EASY_SNMP_TIMEOUT_CONNECT` | `$options['timeout_connect']` | `?int` | `5` | Connection timeout in seconds |
+| `EASY_SNMP_TIMEOUT_READ` | `$options['timeout_read']` | `?int` | `10` | Read timeout in seconds |
+| `EASY_SNMP_USER` | `$options['user']` | `?string` | `null` | SNMPv3 username |
+| `EASY_SNMP_AUTH_PWD` | `$options['auth_pwd']` | `?string` | `null` | SNMPv3 auth password |
+| `EASY_SNMP_PRIV_PWD` | `$options['priv_pwd']` | `?string` | `null` | SNMPv3 privacy password |
+| `EASY_SNMP_AUTH_MECH` | `$options['auth_mech']` | `?string` | `null` | SNMPv3 auth mechanism |
+| `EASY_SNMP_PRIV_MECH` | `$options['priv_mech']` | `?string` | `null` | SNMPv3 privacy mechanism |
+| `EASY_SNMP_ENGINE_ID` | `$options['engine_id']` | `?string` | `null` | SNMPv3 engine ID |
+| `EASY_SNMP_CONTEXT_NAME` | `$options['context_name']` | `?string` | `null` | SNMPv3 context name |
+| `EASY_SNMP_USE_AUTH` | `$options['use_auth']` | `?bool` | `null` | Enable SNMPv3 authentication |
+| `EASY_SNMP_USE_PRIV` | `$options['use_priv']` | `?bool` | `null` | Enable SNMPv3 privacy |
+
 ---
 
 ## Usage
@@ -117,7 +124,10 @@ echo $system->location;  // Server Room A
 echo $system->contact;   // admin@example.com
 echo $system->upTime;    // TimeTicks integer
 echo $system->objectId;  // 1.3.6.1.4.1.14988.1
-```
+
+// Formatted version:
+$system = Format::System( $snmp->getSystem());
+``` 
 
 ### Interface table (ifTable)
 
@@ -132,6 +142,10 @@ foreach( $interfaces as $interface ) {
     echo $interface->operStatus;   // Raw integer (1=up, 2=down, etc.)
     echo $interface->macAddress;   // Raw MAC address
 }
+
+
+// Formatted version:
+$interfaces = Format::IfTables( $snmp->getIfTable());
 ```
 
 Fetch only specific columns to reduce SNMP calls:
@@ -152,6 +166,9 @@ foreach( $interfaces as $interface ) {
     echo $interface->inHcOctets;  // 64-bit input byte counter
     echo $interface->outHcOctets; // 64-bit output byte counter
 }
+
+// Formatted version:
+$interfaces = Format::IfXTables( $snmp->getIfXTable());
 ```
 
 ### ARP table
@@ -165,6 +182,9 @@ foreach( $arp as $entry ) {
     echo $entry->mac;        // Raw MAC address
     echo $entry->type;       // Raw integer (1=other, 2=invalid, 3=dynamic, 4=static)
 }
+
+// Formatted version:
+$arp = Format::ArpTables( $snmp->getArpTable());
 ```
 
 ---
