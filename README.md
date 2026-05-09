@@ -365,6 +365,31 @@ not affect consuming code. A fix has been submitted upstream via pull request.
 
 ---
 
+## Direct SNMP access
+
+For custom queries beyond the built-in methods, pass-through access to the
+underlying FreeDSx client is available:
+
+```php
+// Fetch specific OIDs
+$result = $snmp->get( '1.3.6.1.2.1.1.1.0', '1.3.6.1.2.1.1.5.0' );
+
+// Fetch next OID
+$result = $snmp->getNext( '1.3.6.1.2.1.1.1.0' );
+
+// Walk an OID subtree
+$walk = $snmp->walk( startAt: '1.3.6.1.2.1.1' );
+
+// Bulk walk an OID subtree — returns paginated Oid[] array
+$oids = $snmp->bulkWalk( oid: '1.3.6.1.2.1.2.2.1' );
+```
+
+These methods return raw FreeDSx objects. See the
+[FreeDSx documentation](https://github.com/FreeDSx/SNMP) for details on
+working with the returned values.
+
+---
+
 ## License
 
 MIT
