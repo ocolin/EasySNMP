@@ -187,6 +187,26 @@ foreach( $arp as $entry ) {
 $arp = Format::ArpTables( $snmp->getArpTable());
 ```
 
+### LLDP remote table
+```php
+$lldp_rem = $snmp->getLldpRemTable();
+foreach( $arp as $entry ) {
+    echo $entry->localPort;     // Local port index
+    echo $entry->chassisIdType; // Chassis ID subtype
+    echo $entry->chassisId;     // Chassis identifier
+    echo $entry->portIdType;    // Port ID subtype
+    echo $entry->portId;        // Remote port identifier
+    echo $entry->portDesc;      // Remote port description
+    echo $entry->sysName;       // Remote system name
+    echo $entry->sysDesc;       // Remote system description
+    echo $entry->capSupported;  // Supported capabilities
+    echo $entry->capEnabled;    // Enabled capabilities
+}
+
+// Formatted values:
+$lldp_rem = Format::LldpRemTable( $snmp->getLldpRemTable());
+```
+
 ---
 
 ## Formatting helpers
