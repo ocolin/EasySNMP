@@ -275,4 +275,26 @@ class SnmpHelper
         return empty( $capabilities )
             ? null : implode( separator: ', ', array: $capabilities );
     }
+
+
+/* FORMAT MAC STATUS
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?int $value Unformatted status integer.
+     * @return ?string Formatted status label
+     */
+    public static function formatMacStatus( ?int $value ) : ?string
+    {
+        if( $value === null ) { return null; }
+        return match( $value ) {
+            1 => 'other',
+            2 => 'invalid',
+            3 => 'learned',
+            4 => 'self',
+            5 => 'mgmt',
+            default => (string)$value,
+        };
+    }
+
 }
