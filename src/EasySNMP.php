@@ -6,8 +6,10 @@ namespace Ocolin\EasySNMP;
 
 use FreeDSx\Snmp\Exception\ConnectionException;
 use FreeDSx\Snmp\Exception\SnmpRequestException;
+use FreeDSx\Snmp\OidList;
 use FreeDSx\Snmp\SnmpClient;
 use FreeDSx\Snmp\Oid;
+use FreeDSx\Snmp\SnmpWalk;
 use FreeDSx\Snmp\Value\IntegerValue;
 use FreeDSx\Snmp\Value\CounterValue;
 use FreeDSx\Snmp\Value\BigCounterValue;
@@ -69,7 +71,7 @@ class EasySNMP
      * @throws ConnectionException Error connecting to device.
      * @throws SnmpRequestException Error getting device data.
      */
-    protected function bulkWalk( string $oid,  int $maxRepetitions = 20 ) : array
+    public function bulkWalk( string $oid,  int $maxRepetitions = 20 ) : array
     {
         $baseOid = $oid;
         $results = [];
@@ -95,6 +97,58 @@ class EasySNMP
         } while( count( $response ) > 0 );
 
         return $results;
+    }
+
+
+
+/* FREEDSX GET
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param Oid|string ...$oids OIDs to fetch.
+     * @return OidList<Oid> OID objects.
+     * @throws ConnectionException Error connecting to device.
+     * @throws SnmpRequestException Error reading SNMP response.
+     */
+    public function get( Oid|string ...$oids ) : OidList
+    {
+        return $this->client->get( ...$oids );
+    }
+
+
+
+/* FREEDESX GET NEXT
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param Oid|string ...$oids OIDs to fetch.
+     * @return OidList<Oid> OID objects.
+     * @throws ConnectionException Error connecting to device.
+     * @throws SnmpRequestException Error reading SNMP response.
+     */
+    public function getNext( Oid|string ...$oids ) : OidList
+    {
+        return $this->client->getNext(...$oids );
+    }
+
+
+
+/* FREEDSX WALK
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?string $startAt Walk starting OID.
+     * @param ?string $endAt Walk ending OID.
+     * @return SnmpWalk Walk object.
+     */
+    public function walk( ?string $startAt = null, ?string $endAt = null ) : SnmpWalk
+    {
+        // FreeDSx has depreciated null type issue in walk().
+        $previous = error_reporting( error_level: E_ALL & ~E_DEPRECATED );
+        $walk =  $this->client->walk( startAt: $startAt, endAt: $endAt );
+        error_reporting( $previous );
+
+        return $walk;
     }
 
 
