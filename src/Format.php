@@ -6,15 +6,15 @@ namespace Ocolin\EasySNMP;
 
 use Ocolin\EasySNMP\DTO\System;
 use Ocolin\EasySNMP\DTO\IfTable;
-use Ocolin\EasySNMP\DTO\IfXTable;
 use Ocolin\EasySNMP\DTO\ArpTable;
 use Ocolin\EasySNMP\DTO\LldpRemTable;
+use Ocolin\EasySNMP\DTO\MacTable;
 
 use Ocolin\EasySNMP\Formatted\System AS FormattedSystem;
 use Ocolin\EasySNMP\Formatted\IfTable as FormattedIfTable;
-use Ocolin\EasySNMP\Formatted\IfXTable as FormattedIfXTable;
 use Ocolin\EasySNMP\Formatted\ArpTable as FormattedArpTable;
 use Ocolin\EasySNMP\Formatted\LldpRemTable as FormattedLldpRemTable;
+use Ocolin\EasySNMP\Formatted\MacTable as FormattedMacTable;
 
 class Format
 {
@@ -170,4 +170,44 @@ class Format
                capEnabled: SnmpHelper::formatLldpCapabilities( $lldpRemTable->capEnabled ),
         );
     }
+
+
+
+/* FORMAT MAC TABLES
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param MacTable[] $macTables Unformatted MAC table.
+     * @return FormattedMacTable[] Formatted MAC table.
+     */
+    public static function MacTables( array $macTables ) : array
+    {
+        $output = [];
+        foreach( $macTables as $macTable )
+        {
+            $output[] = self::MacTable( macTable: $macTable );
+        }
+
+        return $output;
+    }
+
+
+
+/* FORMAT MAC TABLE
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param MacTable $macTable Unformatted MAC entry.
+     * @return FormattedMacTable Formatted MAC entry.
+     */
+    public static function MacTable( MacTable $macTable ) : FormattedMacTable
+    {
+        return new FormattedMacTable(
+                  mac: SnmpHelper::formatMacAddress( $macTable->mac ),
+               bridge: $macTable->bridge,
+               status: SnmpHelper::formatMacStatus( $macTable->status ),
+            interface: $macTable->interface
+        );
+    }
+
 }

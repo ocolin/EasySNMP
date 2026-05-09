@@ -234,6 +234,31 @@ $addresses = $snmp->getIpAddrTable( columns: ['address', 'interface', 'netmask']
 | `$bcast` | `?int` | Broadcast address bit |
 | `$reasmMaxSize` | `?int` | Maximum datagram size for reassembly |
 
+### MAC address table
+
+```php
+$macs = $snmp->getMacTable();
+
+foreach( $macs as $entry ) {
+    echo $entry->mac;        // Raw MAC address
+    echo $entry->bridge;     // Bridge port number
+    echo $entry->interface;  // Interface index — matches ifTable index
+    echo $entry->status;     // Raw integer (3=learned, 4=self etc.)
+}
+
+// Formatted version
+$macs = Format::macTables( $snmp->getMacTable() );
+```
+
+### MacTable properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `$mac` | `?string` | Raw MAC address. Use `SnmpHelper::formatMacAddress()` |
+| `$bridge` | `?int` | Bridge port number |
+| `$interface` | `?int` | Interface index — matches `IfTable` index. Null indicates the MAC is associated with the bridge interface itself rather than a physical port |
+| `$status` | `?int` | Entry status. Use `SnmpHelper::formatMacStatus()` |
+
 ---
 
 ## Formatting helpers
