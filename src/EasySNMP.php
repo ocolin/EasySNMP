@@ -19,6 +19,8 @@ use Ocolin\EasySNMP\Traits\IfTableTrait;
 use Ocolin\EasySNMP\Traits\IfXTableTrait;
 use Ocolin\EasySNMP\Traits\SystemTrait;
 use Ocolin\EasySNMP\Traits\ArpTableTrait;
+use Ocolin\EasySNMP\Traits\LldpRemTableTrait;
+
 class EasySNMP
 {
     /**
@@ -30,6 +32,7 @@ class EasySNMP
     use IfXTableTrait;
     use SystemTrait;
     use ArpTableTrait;
+    use LldpRemTableTrait;
 
 /* CONSTRUCTOR
 ----------------------------------------------------------------------------- */

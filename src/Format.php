@@ -8,16 +8,18 @@ use Ocolin\EasySNMP\DTO\System;
 use Ocolin\EasySNMP\DTO\IfTable;
 use Ocolin\EasySNMP\DTO\IfXTable;
 use Ocolin\EasySNMP\DTO\ArpTable;
+use Ocolin\EasySNMP\DTO\LldpRemTable;
 
 use Ocolin\EasySNMP\Formatted\System AS FormattedSystem;
 use Ocolin\EasySNMP\Formatted\IfTable as FormattedIfTable;
 use Ocolin\EasySNMP\Formatted\IfXTable as FormattedIfXTable;
 use Ocolin\EasySNMP\Formatted\ArpTable as FormattedArpTable;
+use Ocolin\EasySNMP\Formatted\LldpRemTable as FormattedLldpRemTable;
 
 class Format
 {
 
-/*
+/* FORMAT SYSTEM OBJECT
 ----------------------------------------------------------------------------- */
 
     /**
@@ -37,7 +39,7 @@ class Format
     }
 
 
-/*
+/* FORMAT IF TABLE
 ----------------------------------------------------------------------------- */
 
     /**
@@ -58,7 +60,7 @@ class Format
 
 
 
-/*
+/* FORMAT IF TABLE ENTRY
 ----------------------------------------------------------------------------- */
 
     /**
@@ -86,7 +88,7 @@ class Format
 
 
 
-/*
+/* FORMAT ARP TABLE
 ----------------------------------------------------------------------------- */
 
     /**
@@ -104,7 +106,9 @@ class Format
         return $output;
     }
 
-/*
+
+
+/* FORMAT ARP TABLE ENTRY
 ----------------------------------------------------------------------------- */
 
     /**
@@ -118,6 +122,52 @@ class Format
                   mac: SnmpHelper::formatMacAddress( $arpTable->mac ),
             ipAddress: $arpTable->ipAddress,
                  type: SnmpHelper::formatArpType( $arpTable->type )
+        );
+    }
+
+
+
+/* FORMAT LLDP REMOTE TABLE
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param LldpRemTable[] $lldpRemTables List of unformatted tables
+     * @return FormattedLldpRemTable[] List of formatted tables.
+     */
+    public static function LldpRemTables( array $lldpRemTables ) : array
+    {
+        $output = [];
+        foreach( $lldpRemTables as $lldpRemTable )
+        {
+            $output[] = self::LldpRemTable( $lldpRemTable );
+        }
+
+        return $output;
+    }
+
+
+/* FORMAT LLDP REMOTE TABLE ENTRY
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param LldpRemTable $lldpRemTable Unformatted LLDP remote entry.
+     * @return FormattedLldpRemTable Formatting LLDP remote entry.
+     */
+    public static function LldpRemTable( LldpRemTable $lldpRemTable ) : FormattedLldpRemTable
+    {
+        return new FormattedLldpRemTable(
+                localPort: $lldpRemTable->localPort,
+            chassisIdType: SnmpHelper::formatLldpIdSubtype( $lldpRemTable->chassisIdType ),
+                chassisId: $lldpRemTable->chassisIdType === 4
+                ? SnmpHelper::formatMacAddress( $lldpRemTable->chassisId )
+                : $lldpRemTable->chassisId,
+               portIdType: SnmpHelper::formatPortIdSubtype( $lldpRemTable->portIdType ),
+                   portId: $lldpRemTable->portId,
+                 portDesc: $lldpRemTable->portDesc,
+                  sysName: $lldpRemTable->sysName,
+                  sysDesc: $lldpRemTable->sysDesc,
+             capSupported: SnmpHelper::formatLldpCapabilities( $lldpRemTable->capSupported ),
+               capEnabled: SnmpHelper::formatLldpCapabilities( $lldpRemTable->capEnabled ),
         );
     }
 }

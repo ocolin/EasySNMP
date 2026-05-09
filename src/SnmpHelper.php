@@ -200,4 +200,79 @@ class SnmpHelper
             default               => $bps . ' bps',
         };
     }
+
+
+
+/* FORMAT LLDP SUB TYPE
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?int $value Numerical value.
+     * @return ?string String label.
+     */
+    public static function formatLldpIdSubtype( ?int $value ) : ?string
+    {
+        if( $value === null ) { return null; }
+
+        return match( $value ) {
+            1   => 'chassisComponent',
+            2   => 'interfaceAlias',
+            3   => 'portComponent',
+            4   => 'macAddress',
+            5   => 'networkAddress',
+            6   => 'interfaceName',
+            7   => 'local',
+            default => (string)$value,
+        };
+    }
+
+
+
+/* FORMAT LLDP PORT ID SUBTYPE
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?int $value Numerical value.
+     * @return ?string String label.
+     */
+    public static function formatPortIdSubtype( ?int $value ) : ?string
+    {
+        if( $value === null ) { return null; }
+
+        return match( $value ) {
+            1   => 'interfaceAlias',
+            2   => 'portComponent',
+            3   => 'macAddress',
+            4   => 'networkAddress',
+            5   => 'interfaceName',
+            6   => 'agentCircuitId',
+            7   => 'local',
+            default => (string)$value,
+        };
+    }
+
+
+
+/* FORMAT LLDP CAPABILITIES
+----------------------------------------------------------------------------- */
+
+    public static function formatLldpCapabilities( ?string $value ) : ?string
+    {
+        if( $value === null || $value === '' ) { return null; }
+
+        $raw = ord( $value[0] );
+        $capabilities = [];
+
+        if( $raw & 0x01 ) { $capabilities[] = 'other'; }
+        if( $raw & 0x02 ) { $capabilities[] = 'repeater'; }
+        if( $raw & 0x04 ) { $capabilities[] = 'bridge'; }
+        if( $raw & 0x08 ) { $capabilities[] = 'wlanAccessPoint'; }
+        if( $raw & 0x10 ) { $capabilities[] = 'router'; }
+        if( $raw & 0x20 ) { $capabilities[] = 'telephone'; }
+        if( $raw & 0x40 ) { $capabilities[] = 'docsisDevice'; }
+        if( $raw & 0x80 ) { $capabilities[] = 'stationOnly'; }
+
+        return empty( $capabilities )
+            ? null : implode( separator: ', ', array: $capabilities );
+    }
 }

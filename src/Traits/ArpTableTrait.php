@@ -21,9 +21,9 @@ trait ArpTableTrait
 ----------------------------------------------------------------------------- */
 
     /**
-     * @return ArpTable[]
-     * @throws ConnectionException
-     * @throws SnmpRequestException
+     * @return ArpTable[] List of ARP table entries.
+     * @throws ConnectionException Error connecting to device.
+     * @throws SnmpRequestException Error reading SNMP response.
      */
     public function getArpTable() : array
     {
@@ -32,8 +32,8 @@ trait ArpTableTrait
         $count = count( $indexes );
 
         $physical = $this->getCompositeColumn( oid: self::ARP_PHYSICAL, count: $count );
-        $address  = $this->getCompositeColumn( oid: self::ARP_ADDRESS, count: $count );
-        $type     = $this->getCompositeColumn( oid: self::ARP_TYPE, count: $count );
+        $address  = $this->getCompositeColumn( oid: self::ARP_ADDRESS,  count: $count );
+        $type     = $this->getCompositeColumn( oid: self::ARP_TYPE,     count: $count );
 
         foreach( $indexes as $index => $interface )
         {
@@ -54,11 +54,11 @@ trait ArpTableTrait
 ----------------------------------------------------------------------------- */
 
     /**
-     * @return array<string, int>
-     * @throws ConnectionException
-     * @throws SnmpRequestException
+     * @return array<string, int> List of interfaces and indexes.
+     * @throws ConnectionException Error connecting to device.
+     * @throws SnmpRequestException Error reading SNMP response.
      */
-    private function getArpIndexes(): array
+    private function getArpIndexes() : array
     {
         $indexes = [];
         foreach( $this->bulkWalk( oid: self::ARP_IF_INDEX ) as $object ) {
