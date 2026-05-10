@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace Ocolin\EasySNMP\Formatted;
 
-class ArpTable
+class ArpEntry
 {
     /**
      * @param ?int $interface ID of interface.

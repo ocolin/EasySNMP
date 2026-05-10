@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace Ocolin\EasySNMP\Formatted;
 
-readonly class MacTable
+readonly class MacEntry
 {
     /**
      * @param ?string $mac MAC address formatted

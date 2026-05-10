@@ -327,7 +327,7 @@ class SnmpHelper
     {
         if( $value === null ) { return null; }
         return match( $value ) {
-            1   => 'other',
+            1 => 'other',
             2 => 'invalid',
             3 => 'direct',
             4 => 'indirect',
@@ -348,22 +348,22 @@ class SnmpHelper
     {
         if( $value === null ) { return null; }
         return match( $value ) {
-            1   => 'other',
-            2   => 'local',
-            3   => 'netmgmt',
-            4   => 'icmp',
-            8   => 'egp',
-            9   => 'ggp',
-            10  => 'hello',
-            11  => 'rip',
-            12  => 'isIs',
-            13  => 'esIs',
-            14  => 'ciscoIgrp',
-            15  => 'bbnSpfIgp',
-            16  => 'ospf',
-            17  => 'bgp',
-            18  => 'idpr',
-            19  => 'ciscoEigrp',
+            1  => 'other',
+            2  => 'local',
+            3  => 'netmgmt',
+            4  => 'icmp',
+            8  => 'egp',
+            9  => 'ggp',
+            10 => 'hello',
+            11 => 'rip',
+            12 => 'isIs',
+            13 => 'esIs',
+            14 => 'ciscoIgrp',
+            15 => 'bbnSpfIgp',
+            16 => 'ospf',
+            17 => 'bgp',
+            18 => 'idpr',
+            19 => 'ciscoEigrp',
             default => (string)$value,
         };
     }
@@ -387,6 +387,86 @@ class SnmpHelper
             4 => 'createAndGo',
             5 => 'createAndWait',
             6 => 'destroy',
+            default => (string)$value,
+        };
+    }
+
+
+
+/* FORMAT STD PORT STATUS
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?int $value Raw integer value.
+     * @return ?string String label.
+     */
+    public static function formatStpPortState( ?int $value ) : ?string
+    {
+        if( $value === null ) { return null; }
+        return match( $value ) {
+            1 => 'disabled',
+            2 => 'blocking',
+            3 => 'listening',
+            4 => 'learning',
+            5 => 'forwarding',
+            6 => 'broken',
+            default => (string)$value,
+        };
+    }
+
+
+
+/* FORMAT BRIDGE ID
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?string $value Unformatted string.
+     * @return ?string Formatted string.
+     */
+    public static function formatBridgeId( ?string $value ) : ?string
+    {
+        if( $value === null || strlen( $value ) !== 8 ) { return null; }
+
+        $hex      = bin2hex( $value );
+        $priority = hexdec( substr( string: $hex, offset: 0, length: 4 ) );
+        $mac      = implode( separator: ':', array: str_split(
+            string: substr( string: $hex, offset: 4 ), length: 2 )
+        );
+
+        return "{$priority}/{$mac}";
+    }
+
+
+
+/* FORMAT STP PORT ID
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?string $value Unformatted string.
+     * @return ?string Formatted string.
+     */
+    public static function formatStpPortId( ?string $value ) : ?string
+    {
+        if( $value === null || strlen( $value ) !== 2 ) { return null; }
+
+        $hex      = bin2hex( $value );
+        $priority = hexdec( substr( string: $hex, offset: 0, length: 2 ) );
+        $port     = hexdec( substr( string: $hex, offset: 2, length: 2 ) );
+
+        return "{$priority}/{$port}";
+    }
+
+
+
+/* FORMAT STP PORT ENABLE
+----------------------------------------------------------------------------- */
+
+    public static function formatStpPortEnable( ?int $value ) : ?string
+    {
+        if( $value === null ) { return null; }
+        return match( $value ) {
+            1 => 'enabled',
+            2 => 'disabled',
             default => (string)$value,
         };
     }

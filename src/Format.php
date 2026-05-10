@@ -5,18 +5,20 @@ declare( strict_types = 1 );
 namespace Ocolin\EasySNMP;
 
 use Ocolin\EasySNMP\DTO\System;
-use Ocolin\EasySNMP\DTO\IfTable;
-use Ocolin\EasySNMP\DTO\ArpTable;
-use Ocolin\EasySNMP\DTO\LldpRemTable;
-use Ocolin\EasySNMP\DTO\MacTable;
-use Ocolin\EasySNMP\DTO\IpForwardTable;
+use Ocolin\EasySNMP\DTO\IfEntry;
+use Ocolin\EasySNMP\DTO\ArpEntry;
+use Ocolin\EasySNMP\DTO\LldpRemEntry;
+use Ocolin\EasySNMP\DTO\MacEntry;
+use Ocolin\EasySNMP\DTO\IpForwardEntry;
+use Ocolin\EasySNMP\DTO\StpPortEntry;
 
 use Ocolin\EasySNMP\Formatted\System AS FormattedSystem;
-use Ocolin\EasySNMP\Formatted\IfTable as FormattedIfTable;
-use Ocolin\EasySNMP\Formatted\ArpTable as FormattedArpTable;
-use Ocolin\EasySNMP\Formatted\LldpRemTable as FormattedLldpRemTable;
-use Ocolin\EasySNMP\Formatted\MacTable as FormattedMacTable;
-use Ocolin\EasySNMP\Formatted\IpForwardTable as FormattedIpForwardTable;
+use Ocolin\EasySNMP\Formatted\IfEntry as FormattedIfEntry;
+use Ocolin\EasySNMP\Formatted\ArpEntry as FormattedArpEntry;
+use Ocolin\EasySNMP\Formatted\LldpRemEntry as FormattedLldpRemEntry;
+use Ocolin\EasySNMP\Formatted\MacEntry as FormattedMacEntry;
+use Ocolin\EasySNMP\Formatted\IpForwardEntry as FormattedIpForwardEntry;
+use Ocolin\EasySNMP\Formatted\StpPortEntry as FormattedStpPortEntry;
 
 class Format
 {
@@ -45,16 +47,16 @@ class Format
 ----------------------------------------------------------------------------- */
 
     /**
-     * @param IfTable[] $ifTables Array of unformatted Interfaces.
-     * @return FormattedIfTable[] Array of formatted Interfaces.
+     * @param IfEntry[] $ifTable Array of unformatted Interfaces.
+     * @return FormattedIfEntry[] Array of formatted Interfaces.
      */
-    public static function IfTables( array $ifTables ) : array
+    public static function IfTable( array $ifTable ) : array
     {
         $output = [];
 
-        foreach( $ifTables as $ifTable )
+        foreach( $ifTable as $ifEntry )
         {
-            $output[] = self::IfTable( $ifTable );
+            $output[] = self::IfEntry( $ifEntry );
         }
 
         return $output;
@@ -66,25 +68,25 @@ class Format
 ----------------------------------------------------------------------------- */
 
     /**
-     * @param IfTable $ifTable Unformatted Interface table.
-     * @return FormattedIfTable Formatted Interface table/
+     * @param IfEntry $ifEntry Unformatted Interface table.
+     * @return FormattedIfEntry Formatted Interface table/
      */
-    public static function IfTable( IfTable $ifTable ) : FormattedIfTable
+    public static function IfEntry( IfEntry $ifEntry ) : FormattedIfEntry
     {
-        return new FormattedIfTable(
-                  index: $ifTable->index,
-            description: $ifTable->description,
-                   type: SnmpHelper::formatIfType( $ifTable->type ),
-                    mtu: $ifTable->mtu,
-                  speed: SnmpHelper::formatSpeed( $ifTable->speed ),
-             macAddress: SnmpHelper::formatMacAddress( $ifTable->macAddress ),
-            adminStatus: SnmpHelper::formatAdminStatus( $ifTable->adminStatus ),
-             operStatus: SnmpHelper::formatOperStatus( $ifTable->operStatus ),
-             lastChange: $ifTable->lastChange,
-               inOctets: $ifTable->inOctets,
-              outOctets: $ifTable->outOctets,
-               inErrors: $ifTable->inErrors,
-              outErrors: $ifTable->outErrors,
+        return new FormattedIfEntry(
+                  index: $ifEntry->index,
+            description: $ifEntry->description,
+                   type: SnmpHelper::formatIfType( $ifEntry->type ),
+                    mtu: $ifEntry->mtu,
+                  speed: SnmpHelper::formatSpeed( $ifEntry->speed ),
+             macAddress: SnmpHelper::formatMacAddress( $ifEntry->macAddress ),
+            adminStatus: SnmpHelper::formatAdminStatus( $ifEntry->adminStatus ),
+             operStatus: SnmpHelper::formatOperStatus( $ifEntry->operStatus ),
+             lastChange: $ifEntry->lastChange,
+               inOctets: $ifEntry->inOctets,
+              outOctets: $ifEntry->outOctets,
+               inErrors: $ifEntry->inErrors,
+              outErrors: $ifEntry->outErrors,
         );
     }
 
@@ -94,15 +96,15 @@ class Format
 ----------------------------------------------------------------------------- */
 
     /**
-     * @param ArpTable[] $arpTables List of unformatted ARP tables.
-     * @return FormattedArpTable[] List of formatted ARP tables.
+     * @param ArpEntry[] $arpTable List of unformatted ARP tables.
+     * @return FormattedArpEntry[] List of formatted ARP tables.
      */
-    public static function ArpTables( array $arpTables ) : array
+    public static function ArpTable( array $arpTable ) : array
     {
         $output = [];
-        foreach( $arpTables as $arpTable )
+        foreach( $arpTable as $arpEntry )
         {
-            $output[] = self::ArpTable( $arpTable );
+            $output[] = self::ArpEntry( $arpEntry );
         }
 
         return $output;
@@ -114,16 +116,16 @@ class Format
 ----------------------------------------------------------------------------- */
 
     /**
-     * @param ArpTable $arpTable Unformatted ARP entry.
-     * @return FormattedArpTable Formatted ARP entry.
+     * @param ArpEntry $arpEntry Unformatted ARP entry.
+     * @return FormattedArpEntry Formatted ARP entry.
      */
-    public static function ArpTable( ArpTable $arpTable ) : FormattedArpTable
+    public static function ArpEntry( ArpEntry $arpEntry ) : FormattedArpEntry
     {
-        return new FormattedArpTable(
-            interface: $arpTable->interface,
-                  mac: SnmpHelper::formatMacAddress( $arpTable->mac ),
-            ipAddress: $arpTable->ipAddress,
-                 type: SnmpHelper::formatArpType( $arpTable->type )
+        return new FormattedArpEntry(
+            interface: $arpEntry->interface,
+                  mac: SnmpHelper::formatMacAddress( $arpEntry->mac ),
+            ipAddress: $arpEntry->ipAddress,
+                 type: SnmpHelper::formatArpType( $arpEntry->type )
         );
     }
 
@@ -133,15 +135,15 @@ class Format
 ----------------------------------------------------------------------------- */
 
     /**
-     * @param LldpRemTable[] $lldpRemTables List of unformatted tables
-     * @return FormattedLldpRemTable[] List of formatted tables.
+     * @param LldpRemEntry[] $lldpRemTable List of unformatted tables
+     * @return FormattedLldpRemEntry[] List of formatted tables.
      */
-    public static function LldpRemTables( array $lldpRemTables ) : array
+    public static function LldpRemTable( array $lldpRemTable ) : array
     {
         $output = [];
-        foreach( $lldpRemTables as $lldpRemTable )
+        foreach( $lldpRemTable as $lldpRemEntry )
         {
-            $output[] = self::LldpRemTable( $lldpRemTable );
+            $output[] = self::LldpRemEntry( $lldpRemEntry );
         }
 
         return $output;
@@ -152,24 +154,24 @@ class Format
 ----------------------------------------------------------------------------- */
 
     /**
-     * @param LldpRemTable $lldpRemTable Unformatted LLDP remote entry.
-     * @return FormattedLldpRemTable Formatting LLDP remote entry.
+     * @param LldpRemEntry $lldpRemEntry Unformatted LLDP remote entry.
+     * @return FormattedLldpRemEntry Formatting LLDP remote entry.
      */
-    public static function LldpRemTable( LldpRemTable $lldpRemTable ) : FormattedLldpRemTable
+    public static function LldpRemEntry( LldpRemEntry $lldpRemEntry ) : FormattedLldpRemEntry
     {
-        return new FormattedLldpRemTable(
-                localPort: $lldpRemTable->localPort,
-            chassisIdType: SnmpHelper::formatLldpIdSubtype( $lldpRemTable->chassisIdType ),
-                chassisId: $lldpRemTable->chassisIdType === 4
-                ? SnmpHelper::formatMacAddress( $lldpRemTable->chassisId )
-                : $lldpRemTable->chassisId,
-               portIdType: SnmpHelper::formatPortIdSubtype( $lldpRemTable->portIdType ),
-                   portId: $lldpRemTable->portId,
-                 portDesc: $lldpRemTable->portDesc,
-                  sysName: $lldpRemTable->sysName,
-                  sysDesc: $lldpRemTable->sysDesc,
-             capSupported: SnmpHelper::formatLldpCapabilities( $lldpRemTable->capSupported ),
-               capEnabled: SnmpHelper::formatLldpCapabilities( $lldpRemTable->capEnabled ),
+        return new FormattedLldpRemEntry(
+                localPort: $lldpRemEntry->localPort,
+            chassisIdType: SnmpHelper::formatLldpIdSubtype( $lldpRemEntry->chassisIdType ),
+                chassisId: $lldpRemEntry->chassisIdType === 4
+                ? SnmpHelper::formatMacAddress( $lldpRemEntry->chassisId )
+                : $lldpRemEntry->chassisId,
+               portIdType: SnmpHelper::formatPortIdSubtype( $lldpRemEntry->portIdType ),
+                   portId: $lldpRemEntry->portId,
+                 portDesc: $lldpRemEntry->portDesc,
+                  sysName: $lldpRemEntry->sysName,
+                  sysDesc: $lldpRemEntry->sysDesc,
+             capSupported: SnmpHelper::formatLldpCapabilities( $lldpRemEntry->capSupported ),
+               capEnabled: SnmpHelper::formatLldpCapabilities( $lldpRemEntry->capEnabled ),
         );
     }
 
@@ -179,15 +181,15 @@ class Format
 ----------------------------------------------------------------------------- */
 
     /**
-     * @param MacTable[] $macTables Unformatted MAC table.
-     * @return FormattedMacTable[] Formatted MAC table.
+     * @param MacEntry[] $macTable Unformatted MAC table.
+     * @return FormattedMacEntry[] Formatted MAC table.
      */
-    public static function MacTables( array $macTables ) : array
+    public static function MacTable( array $macTable ) : array
     {
         $output = [];
-        foreach( $macTables as $macTable )
+        foreach( $macTable as $macEntry )
         {
-            $output[] = self::MacTable( macTable: $macTable );
+            $output[] = self::MacEntry( macEntry: $macEntry );
         }
 
         return $output;
@@ -195,20 +197,20 @@ class Format
 
 
 
-/* FORMAT MAC TABLE
+/* FORMAT MAC ENTRY
 ----------------------------------------------------------------------------- */
 
     /**
-     * @param MacTable $macTable Unformatted MAC entry.
-     * @return FormattedMacTable Formatted MAC entry.
+     * @param MacEntry $macEntry Unformatted MAC entry.
+     * @return FormattedMacEntry Formatted MAC entry.
      */
-    public static function MacTable( MacTable $macTable ) : FormattedMacTable
+    public static function MacEntry( MacEntry $macEntry ) : FormattedMacEntry
     {
-        return new FormattedMacTable(
-                  mac: SnmpHelper::formatMacAddress( $macTable->mac ),
-               bridge: $macTable->bridge,
-               status: SnmpHelper::formatMacStatus( $macTable->status ),
-            interface: $macTable->interface
+        return new FormattedMacEntry(
+                  mac: SnmpHelper::formatMacAddress( $macEntry->mac ),
+               bridge: $macEntry->bridge,
+               status: SnmpHelper::formatMacStatus( $macEntry->status ),
+            interface: $macEntry->interface
         );
     }
 
@@ -218,15 +220,15 @@ class Format
 ----------------------------------------------------------------------------- */
 
     /**
-     * @param IpForwardTable[] $ipForwardTables Unformatted table.
-     * @return FormattedIpForwardTable[] Formatted table.
+     * @param IpForwardEntry[] $ipForwardTable Unformatted table.
+     * @return FormattedIpForwardEntry[] Formatted table.
      */
-    public static function IpForwardTables( array $ipForwardTables ) : array
+    public static function IpForwardTable( array $ipForwardTable ) : array
     {
         $output = [];
-        foreach( $ipForwardTables as $ipForwardTable )
+        foreach( $ipForwardTable as $ipForwardEntry )
         {
-            $output[] = self::IpForwardTable( ipForwardTable: $ipForwardTable );
+            $output[] = self::IpForwardEntry( ipForwardEntry: $ipForwardEntry );
         }
 
         return $output;
@@ -238,30 +240,74 @@ class Format
 ----------------------------------------------------------------------------- */
 
     /**
-     * @param IpForwardTable $ipForwardTable Unformatted row.
-     * @return FormattedIpForwardTable Formatted row.
+     * @param IpForwardEntry $ipForwardEntry Unformatted row.
+     * @return FormattedIpForwardEntry Formatted row.
      */
-    public static function IpForwardTable(
-        IpForwardTable $ipForwardTable
-    ) : FormattedIpForwardTable
+    public static function IpForwardEntry(
+        IpForwardEntry $ipForwardEntry
+    ) : FormattedIpForwardEntry
     {
-        return new FormattedIpForwardTable(
-            destination: $ipForwardTable->destination,
-                   mask: $ipForwardTable->mask,
-                 policy: $ipForwardTable->policy,
-                nextHop: $ipForwardTable->nextHop,
-              interface: $ipForwardTable->interface,
-                   type: SnmpHelper::formatIpForwardType( $ipForwardTable->type ),
-               protocol: SnmpHelper::formatIpForwardProto( $ipForwardTable->protocol ),
-                    age: $ipForwardTable->age,
-                   info: $ipForwardTable->info,
-              nextHopAs: $ipForwardTable->nextHopAs,
-                metric1: $ipForwardTable->metric1,
-                metric2: $ipForwardTable->metric2,
-                metric3: $ipForwardTable->metric3,
-                metric4: $ipForwardTable->metric4,
-                metric5: $ipForwardTable->metric5,
-                 status: SnmpHelper::formatRowStatus( $ipForwardTable->status ),
+        return new FormattedIpForwardEntry(
+            destination: $ipForwardEntry->destination,
+                   mask: $ipForwardEntry->mask,
+                 policy: $ipForwardEntry->policy,
+                nextHop: $ipForwardEntry->nextHop,
+              interface: $ipForwardEntry->interface,
+                   type: SnmpHelper::formatIpForwardType( $ipForwardEntry->type ),
+               protocol: SnmpHelper::formatIpForwardProto( $ipForwardEntry->protocol ),
+                    age: $ipForwardEntry->age,
+                   info: $ipForwardEntry->info,
+              nextHopAs: $ipForwardEntry->nextHopAs,
+                metric1: $ipForwardEntry->metric1,
+                metric2: $ipForwardEntry->metric2,
+                metric3: $ipForwardEntry->metric3,
+                metric4: $ipForwardEntry->metric4,
+                metric5: $ipForwardEntry->metric5,
+                 status: SnmpHelper::formatRowStatus( $ipForwardEntry->status ),
+        );
+    }
+
+
+
+/* CONVERT STP PORT TABLE TO FORMATTED VERSION
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param StpPortEntry[] $stpPortTable Unformatted table.
+     * @return FormattedStpPortEntry[] Formatted table.
+     */
+    public static function StpPortTable( array $stpPortTable ) : array
+    {
+        $output = [];
+        foreach( $stpPortTable as $stpPortEntry )
+        {
+            $output[] = self::StpPortEntry( stpPortEntry: $stpPortEntry );
+        }
+
+        return $output;
+    }
+
+
+
+/* CONVERT STP PORT ROW TO FORMATTED VERSION
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param StpPortEntry $stpPortEntry Unformatted table row.
+     * @return FormattedStpPortEntry Formatted table row.
+     */
+    public static function StpPortEntry( StpPortEntry $stpPortEntry ) : FormattedStpPortEntry
+    {
+        return new FormattedStpPortEntry(
+               bridge: $stpPortEntry->bridge,
+             priority: $stpPortEntry->priority,
+                state: SnmpHelper::formatStpPortState( $stpPortEntry->state ),
+               enable: SnmpHelper::formatStpPortEnable( $stpPortEntry->enable ),
+             pathCost: $stpPortEntry->pathCost,
+              desRoot: SnmpHelper::formatBridgeId( $stpPortEntry->desRoot ),
+              desCost: $stpPortEntry->desCost,
+            desBridge: SnmpHelper::formatBridgeId( $stpPortEntry->desBridge ),
+             desPort: SnmpHelper::formatStpPortId( $stpPortEntry->desPort ),
         );
     }
 }

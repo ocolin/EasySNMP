@@ -6,7 +6,7 @@ namespace Ocolin\EasySNMP\Traits;
 
 use FreeDSx\Snmp\Exception\ConnectionException;
 use FreeDSx\Snmp\Exception\SnmpRequestException;
-use Ocolin\EasySNMP\DTO\IpForwardTable;
+use Ocolin\EasySNMP\DTO\IpForwardEntry;
 
 trait IpForwardTableTrait
 {
@@ -46,7 +46,7 @@ trait IpForwardTableTrait
 
     /**
      * @param string[] $columns List of columns to fetch.
-     * @return IpForwardTable[] IP forwarding table.
+     * @return IpForwardEntry[] IP forwarding table.
      * @throws ConnectionException Error connecting to device.
      * @throws SnmpRequestException Error reading SNMP response.
      */
@@ -77,7 +77,7 @@ trait IpForwardTableTrait
 
         foreach( $indexes as $index => $values )
         {
-            $table[] = new IpForwardTable(
+            $table[] = new IpForwardEntry(
                 destination: (string)$values['destination'],
                        mask: (string)$values['mask'],
                      policy: (int)$values['policy'],

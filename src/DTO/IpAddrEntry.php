@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace Ocolin\EasySNMP\DTO;
 
-readonly class IpAddrTable
+readonly class IpAddrEntry
 {
     /**
      * @param ?string $address IP address.
