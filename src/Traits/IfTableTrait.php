@@ -6,7 +6,7 @@ namespace Ocolin\EasySNMP\Traits;
 
 use FreeDSx\Snmp\Exception\ConnectionException;
 use FreeDSx\Snmp\Exception\SnmpRequestException;
-use Ocolin\EasySNMP\DTO\IfTable;
+use Ocolin\EasySNMP\DTO\IfEntry;
 
 trait IfTableTrait
 {
@@ -46,7 +46,7 @@ trait IfTableTrait
 
     /**
      * @param string[] $columns Columns to get. Defaults to all.
-     * @return IfTable[] Table of IF columns.
+     * @return IfEntry[] Table of IF columns.
      * @throws ConnectionException Errors connecting to device.
      * @throws SnmpRequestException Errors getting data from device.
      */
@@ -79,7 +79,7 @@ trait IfTableTrait
         }
 
         foreach( $indexes as $index => $value ) {
-            $table[] = new IfTable(
+            $table[] = new IfEntry(
                       index: $index,
                 description: self::strVal( data: $data, key: 'description', index: $index ),
                        type: self::intVal( data: $data, key: 'type',        index: $index ),

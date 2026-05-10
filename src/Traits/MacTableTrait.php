@@ -6,7 +6,7 @@ namespace Ocolin\EasySNMP\Traits;
 
 use FreeDSx\Snmp\Exception\ConnectionException;
 use FreeDSx\Snmp\Exception\SnmpRequestException;
-use Ocolin\EasySNMP\DTO\MacTable;
+use Ocolin\EasySNMP\DTO\MacEntry;
 
 trait MacTableTrait
 {
@@ -21,7 +21,7 @@ trait MacTableTrait
 ----------------------------------------------------------------------------- */
 
     /**
-     * @return MacTable[] List of MAC entries.
+     * @return MacEntry[] List of MAC entries.
      * @throws ConnectionException Error connecting to device.
      * @throws SnmpRequestException Error reading SNMP response.
      */
@@ -37,7 +37,7 @@ trait MacTableTrait
 
         foreach ( $indexes as $index => $mac )
         {
-            $table[] = new MacTable(
+            $table[] = new MacEntry(
                       mac: $mac,
                    bridge: isset( $bridges[ $index ] )
                           ? (int)$bridges[ $index ] : null,

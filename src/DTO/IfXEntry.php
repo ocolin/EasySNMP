@@ -4,7 +4,7 @@ declare( strict_types = 1 );
 
 namespace Ocolin\EasySNMP\DTO;
 
-readonly class IfXTable
+readonly class IfXEntry
 {
     /**
      * @param int $index Interface index ID.

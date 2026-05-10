@@ -6,7 +6,7 @@ namespace Ocolin\EasySNMP\Traits;
 
 use FreeDSx\Snmp\Exception\ConnectionException;
 use FreeDSx\Snmp\Exception\SnmpRequestException;
-use Ocolin\EasySNMP\DTO\LldpRemTable;
+use Ocolin\EasySNMP\DTO\LldpRemEntry;
 
 trait LldpRemTableTrait
 {
@@ -40,7 +40,7 @@ trait LldpRemTableTrait
 
     /**
      * @param string[] $columns List of columns to return.
-     * @return LldpRemTable[] List of LLDP remote table entries.
+     * @return LldpRemEntry[] List of LLDP remote table entries.
      * @throws ConnectionException Error connecting to device.
      * @throws SnmpRequestException Error reading SNMP response.
      */
@@ -76,7 +76,7 @@ trait LldpRemTableTrait
             $parts     = explode( separator: '.', string: $index );
             $localPort = (int)$parts[1];
 
-            $table[] = new LldpRemTable(
+            $table[] = new LldpRemEntry(
                     localPort: $localPort,
                 chassisIdType: $chassisIdType,
                     chassisId: isset( $data['chassisId'][$index] )

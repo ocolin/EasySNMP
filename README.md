@@ -306,6 +306,41 @@ $routes = Format::ipForwardTables( $snmp->getIpForwardTable() );
 | `$metric5` | `?int` | Fifth routing metric |
 | `$status` | `?int` | Row status. Use `SnmpHelper::formatRowStatus()` |
 
+### STP port table
+
+```php
+$ports = $snmp->getStpPorts();
+
+foreach( $ports as $port ) {
+    echo $port->bridge;    // Bridge port number — matches MacEntry bridge
+    echo $port->priority;  // Port priority (0-255)
+    echo $port->state;     // Raw integer. Use SnmpHelper::formatStpPortState()
+    echo $port->enable;    // Raw integer. Use SnmpHelper::formatStpPortEnable()
+    echo $port->pathCost;  // STP path cost
+    echo $port->desRoot;   // Designated root bridge ID (8 bytes binary)
+    echo $port->desCost;   // Designated path cost to root
+    echo $port->desBridge; // Designated bridge ID (8 bytes binary)
+    echo $port->desPort;   // Designated port ID (2 bytes binary)
+}
+
+// Formatted version
+$ports = Format::stpPortEntries( $snmp->getStpPorts() );
+```
+
+### StpPortEntry properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `$bridge` | `?int` | Bridge port number — matches `$bridge` in `MacEntry` |
+| `$priority` | `?int` | Port priority (0-255), default 128 |
+| `$state` | `?int` | STP port state. Use `SnmpHelper::formatStpPortState()` |
+| `$enable` | `?int` | Port enabled status. Use `SnmpHelper::formatStpPortEnable()` |
+| `$pathCost` | `?int` | STP path cost for this port |
+| `$desRoot` | `?string` | Designated root bridge ID (8 bytes). Use `SnmpHelper::formatBridgeId()` |
+| `$desCost` | `?int` | Designated path cost to root bridge |
+| `$desBridge` | `?string` | Designated bridge ID (8 bytes). Use `SnmpHelper::formatBridgeId()` |
+| `$desPort` | `?string` | Designated port ID (2 bytes). Use `SnmpHelper::formatStpPortId()` |
+
 ---
 
 ## Formatting helpers

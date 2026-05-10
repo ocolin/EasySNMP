@@ -6,7 +6,7 @@ namespace Ocolin\EasySNMP\Traits;
 
 use FreeDSx\Snmp\Exception\ConnectionException;
 use FreeDSx\Snmp\Exception\SnmpRequestException;
-use Ocolin\EasySNMP\DTO\ArpTable;
+use Ocolin\EasySNMP\DTO\ArpEntry;
 
 trait ArpTableTrait
 {
@@ -21,7 +21,7 @@ trait ArpTableTrait
 ----------------------------------------------------------------------------- */
 
     /**
-     * @return ArpTable[] List of ARP table entries.
+     * @return ArpEntry[] List of ARP table entries.
      * @throws ConnectionException Error connecting to device.
      * @throws SnmpRequestException Error reading SNMP response.
      */
@@ -37,7 +37,7 @@ trait ArpTableTrait
 
         foreach( $indexes as $index => $interface )
         {
-            $table[] = new ArpTable(
+            $table[] = new ArpEntry(
                 interface: (int)$interface,
                       mac: isset( $physical[$index] ) ? (string)$physical[$index] : null,
                 ipAddress: isset( $address[$index] )  ? (string)$address[$index]  : null,

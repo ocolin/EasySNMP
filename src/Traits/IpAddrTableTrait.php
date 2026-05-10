@@ -6,7 +6,7 @@ namespace Ocolin\EasySNMP\Traits;
 
 use FreeDSx\Snmp\Exception\ConnectionException;
 use FreeDSx\Snmp\Exception\SnmpRequestException;
-use Ocolin\EasySNMP\DTO\IpAddrTable;
+use Ocolin\EasySNMP\DTO\IpAddrEntry;
 
 trait IpAddrTableTrait
 {
@@ -32,7 +32,7 @@ trait IpAddrTableTrait
 
     /**
      * @param string[] $columns Columns to include.
-     * @return IpAddrTable[] List of IP addresses.
+     * @return IpAddrEntry[] List of IP addresses.
      * @throws ConnectionException Error connecting to device.
      * @throws SnmpRequestException Error getting SNMP response.
      */
@@ -61,7 +61,7 @@ trait IpAddrTableTrait
 
         foreach ( $indexes as $index => $ip )
         {
-            $table[] = new IpAddrTable(
+            $table[] = new IpAddrEntry(
                      address: (string)$ip,
                    interface: isset( $data['interface'][$index] ) ? (int)$data['interface'][$index] : null,
                      netmask: isset( $data['netmask'][$index] ) ? (string)$data['netmask'][$index] : null,
