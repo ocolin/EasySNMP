@@ -259,6 +259,53 @@ $macs = Format::macTables( $snmp->getMacTable() );
 | `$interface` | `?int` | Interface index — matches `IfTable` index. Null indicates the MAC is associated with the bridge interface itself rather than a physical port |
 | `$status` | `?int` | Entry status. Use `SnmpHelper::formatMacStatus()` |
 
+
+### IP forwarding table
+
+```php
+$routes = $snmp->getIpForwardTable();
+
+foreach( $routes as $route ) {
+    echo $route->destination;  // Destination network
+    echo $route->mask;         // Subnet mask
+    echo $route->nextHop;      // Next hop IP address
+    echo $route->interface;    // Interface index — matches ifTable
+    echo $route->type;         // Raw integer. Use SnmpHelper::formatIpForwardType()
+    echo $route->protocol;     // Raw integer. Use SnmpHelper::formatIpForwardProto()
+    echo $route->status;       // Raw integer. Use SnmpHelper::formatRowStatus()
+}
+
+// Fetch additional columns
+$routes = $snmp->getIpForwardTable( columns: [
+    'interface', 'type', 'protocol', 'metric1', 'status',
+    'age', 'nextHopAs', 'metric2', 'metric3', 'metric4', 'metric5'
+]);
+
+// Formatted version
+$routes = Format::ipForwardTables( $snmp->getIpForwardTable() );
+```
+
+### IpForwardTable properties
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `$destination` | `?string` | Destination network address — always present |
+| `$mask` | `?string` | Destination subnet mask — always present |
+| `$policy` | `?int` | Route policy, typically 0 — always present |
+| `$nextHop` | `?string` | Next hop IP address — always present |
+| `$interface` | `?int` | Interface index — matches `IfTable` index |
+| `$type` | `?int` | Route type. Use `SnmpHelper::formatIpForwardType()` |
+| `$protocol` | `?int` | Routing protocol. Use `SnmpHelper::formatIpForwardProto()` |
+| `$age` | `?int` | Seconds since route was last updated |
+| `$info` | `?string` | Protocol specific info, rarely populated |
+| `$nextHopAs` | `?int` | Next hop autonomous system number |
+| `$metric1` | `?int` | Primary routing metric |
+| `$metric2` | `?int` | Secondary routing metric |
+| `$metric3` | `?int` | Tertiary routing metric |
+| `$metric4` | `?int` | Fourth routing metric |
+| `$metric5` | `?int` | Fifth routing metric |
+| `$status` | `?int` | Row status. Use `SnmpHelper::formatRowStatus()` |
+
 ---
 
 ## Formatting helpers

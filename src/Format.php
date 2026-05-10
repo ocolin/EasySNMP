@@ -9,12 +9,14 @@ use Ocolin\EasySNMP\DTO\IfTable;
 use Ocolin\EasySNMP\DTO\ArpTable;
 use Ocolin\EasySNMP\DTO\LldpRemTable;
 use Ocolin\EasySNMP\DTO\MacTable;
+use Ocolin\EasySNMP\DTO\IpForwardTable;
 
 use Ocolin\EasySNMP\Formatted\System AS FormattedSystem;
 use Ocolin\EasySNMP\Formatted\IfTable as FormattedIfTable;
 use Ocolin\EasySNMP\Formatted\ArpTable as FormattedArpTable;
 use Ocolin\EasySNMP\Formatted\LldpRemTable as FormattedLldpRemTable;
 use Ocolin\EasySNMP\Formatted\MacTable as FormattedMacTable;
+use Ocolin\EasySNMP\Formatted\IpForwardTable as FormattedIpForwardTable;
 
 class Format
 {
@@ -210,4 +212,56 @@ class Format
         );
     }
 
+
+
+/* FORMAT IP FORWARD TABLE
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param IpForwardTable[] $ipForwardTables Unformatted table.
+     * @return FormattedIpForwardTable[] Formatted table.
+     */
+    public static function IpForwardTables( array $ipForwardTables ) : array
+    {
+        $output = [];
+        foreach( $ipForwardTables as $ipForwardTable )
+        {
+            $output[] = self::IpForwardTable( ipForwardTable: $ipForwardTable );
+        }
+
+        return $output;
+    }
+
+
+
+/* CONVERT IP FORWARD ROW TO FORMATTED VERSION
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param IpForwardTable $ipForwardTable Unformatted row.
+     * @return FormattedIpForwardTable Formatted row.
+     */
+    public static function IpForwardTable(
+        IpForwardTable $ipForwardTable
+    ) : FormattedIpForwardTable
+    {
+        return new FormattedIpForwardTable(
+            destination: $ipForwardTable->destination,
+                   mask: $ipForwardTable->mask,
+                 policy: $ipForwardTable->policy,
+                nextHop: $ipForwardTable->nextHop,
+              interface: $ipForwardTable->interface,
+                   type: SnmpHelper::formatIpForwardType( $ipForwardTable->type ),
+               protocol: SnmpHelper::formatIpForwardProto( $ipForwardTable->protocol ),
+                    age: $ipForwardTable->age,
+                   info: $ipForwardTable->info,
+              nextHopAs: $ipForwardTable->nextHopAs,
+                metric1: $ipForwardTable->metric1,
+                metric2: $ipForwardTable->metric2,
+                metric3: $ipForwardTable->metric3,
+                metric4: $ipForwardTable->metric4,
+                metric5: $ipForwardTable->metric5,
+                 status: SnmpHelper::formatRowStatus( $ipForwardTable->status ),
+        );
+    }
 }

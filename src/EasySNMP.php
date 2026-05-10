@@ -24,6 +24,7 @@ use Ocolin\EasySNMP\Traits\ArpTableTrait;
 use Ocolin\EasySNMP\Traits\LldpRemTableTrait;
 use Ocolin\EasySNMP\Traits\IpAddrTableTrait;
 use Ocolin\EasySNMP\Traits\MacTableTrait;
+use Ocolin\EasySNMP\Traits\IpForwardTableTrait;
 
 class EasySNMP
 {
@@ -39,6 +40,7 @@ class EasySNMP
     use LldpRemTableTrait;
     use IpAddrTableTrait;
     use MacTableTrait;
+    use IpForwardTableTrait;
 
 /* CONSTRUCTOR
 ----------------------------------------------------------------------------- */

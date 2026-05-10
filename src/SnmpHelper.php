@@ -44,8 +44,25 @@ class SnmpHelper
         return match( $value ) {
             1   => 'other',
             2   => 'regular1822',
+            3   => 'hdh1822',
+            4   => 'ddnX25',
+            5   => 'rfc877x25',
             6   => 'ethernet',
             7   => 'iso88023Csmacd',
+            8   => 'iso88024TokenBus',
+            9   => 'iso88025TokenRing',
+            10  => 'iso88026Man',
+            11  => 'starLan',
+            12  => 'proteon10Mbit',
+            13  => 'proteon80Mbit',
+            14  => 'hyperchannel',
+            15  => 'fddi',
+            16  => 'lapb',
+            17  => 'sdlc',
+            18  => 'ds1',
+            19  => 'e1',
+            20  => 'basicISDN',
+            21  => 'primaryISDN',
             22  => 'ppp',
             24  => 'softwareLoopback',
             27  => 'slip',
@@ -297,4 +314,80 @@ class SnmpHelper
         };
     }
 
+
+
+/* FORMAT IP FORWARD TYPE
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?int $value Unformatted value.
+     * @return ?string Formatted value.
+     */
+    public static function formatIpForwardType( ?int $value ) : ?string
+    {
+        if( $value === null ) { return null; }
+        return match( $value ) {
+            1   => 'other',
+            2 => 'invalid',
+            3 => 'direct',
+            4 => 'indirect',
+            default => (string)$value,
+        };
+    }
+
+
+
+/* FORMAT IP FORWARD PROTOCOL
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?int $value Unformatted value.
+     * @return ?string Formatted value.
+     */
+    public static function formatIpForwardProto( ?int $value ) : ?string
+    {
+        if( $value === null ) { return null; }
+        return match( $value ) {
+            1   => 'other',
+            2   => 'local',
+            3   => 'netmgmt',
+            4   => 'icmp',
+            8   => 'egp',
+            9   => 'ggp',
+            10  => 'hello',
+            11  => 'rip',
+            12  => 'isIs',
+            13  => 'esIs',
+            14  => 'ciscoIgrp',
+            15  => 'bbnSpfIgp',
+            16  => 'ospf',
+            17  => 'bgp',
+            18  => 'idpr',
+            19  => 'ciscoEigrp',
+            default => (string)$value,
+        };
+    }
+
+
+
+/* FORMAT ROW STATUS
+----------------------------------------------------------------------------- */
+
+    /**
+     * @param ?int $value Unformatted value.
+     * @return ?string Formatted value.
+     */
+    public static function formatRowStatus( ?int $value ) : ?string
+    {
+        if( $value === null ) { return null; }
+        return match( $value ) {
+            1 => 'active',
+            2 => 'notInService',
+            3 => 'notReady',
+            4 => 'createAndGo',
+            5 => 'createAndWait',
+            6 => 'destroy',
+            default => (string)$value,
+        };
+    }
 }
