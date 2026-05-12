@@ -58,10 +58,7 @@ class EasySNMP
     )
     {
         $config = $config ?? new Config();
-        // FreeDSx has depreciated null type issue in walk().
-        $previous = error_reporting( E_ALL & ~E_DEPRECATED );
         $this->client = $client ?? new SnmpClient( $config->getOptions() );
-        error_reporting( $previous );
     }
 
 
@@ -84,15 +81,11 @@ class EasySNMP
         $results = [];
 
         do {
-            // FreeDSx has a PHP 8.4 nullable type deprecation in walk().
-            // Suppress during getBulk() call only. PR pending upstream.
-            $previous = error_reporting( error_level: E_ALL & ~E_DEPRECATED );
             $response = $this->client->getBulk(
                 maxRepetitions: $maxRepetitions,
                   nonRepeaters: 0,
                           oids: $oid
             );
-            error_reporting( $previous );
 
             foreach( $response as $object ) {
                 if( !str_starts_with( $object->getOid(), $baseOid ) ) {
@@ -150,12 +143,7 @@ class EasySNMP
      */
     public function walk( ?string $startAt = null, ?string $endAt = null ) : SnmpWalk
     {
-        // FreeDSx has depreciated null type issue in walk().
-        $previous = error_reporting( error_level: E_ALL & ~E_DEPRECATED );
-        $walk =  $this->client->walk( startAt: $startAt, endAt: $endAt );
-        error_reporting( $previous );
-
-        return $walk;
+        return $this->client->walk( startAt: $startAt, endAt: $endAt );
     }
 
 

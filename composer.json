@@ -14,7 +14,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=8.4",
-        "freedsx/snmp": ">=0.5.1",
+        "freedsx/snmp": ">=0.5.2",
         "ocolin/global-type": "^2.0"
     },
     "require-dev": {

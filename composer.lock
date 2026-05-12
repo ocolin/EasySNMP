@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "103feb7e789ede2a5f27e8e9d20ed45b",
+    "content-hash": "d497c4f5f533bba8a1db923dc0b7a087",
     "packages": [
         {
             "name": "freedsx/asn1",
@@ -67,16 +67,16 @@
         },
         {
             "name": "freedsx/snmp",
-            "version": "0.5.1",
+            "version": "0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FreeDSx/SNMP.git",
-                "reference": "b9eb6a4f4924a1cc557222943a0912d34ff83511"
+                "reference": "7d3b7c85e47625ce6f4b10816ea9c795fa6d6645"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FreeDSx/SNMP/zipball/b9eb6a4f4924a1cc557222943a0912d34ff83511",
-                "reference": "b9eb6a4f4924a1cc557222943a0912d34ff83511",
+                "url": "https://api.github.com/repos/FreeDSx/SNMP/zipball/7d3b7c85e47625ce6f4b10816ea9c795fa6d6645",
+                "reference": "7d3b7c85e47625ce6f4b10816ea9c795fa6d6645",
                 "shasum": ""
             },
             "require": {
@@ -118,9 +118,9 @@
             ],
             "support": {
                 "issues": "https://github.com/FreeDSx/SNMP/issues",
-                "source": "https://github.com/FreeDSx/SNMP/tree/0.5.1"
+                "source": "https://github.com/FreeDSx/SNMP/tree/0.5.2"
             },
-            "time": "2026-04-25T17:40:54+00:00"
+            "time": "2026-05-12T23:13:12+00:00"
         },
         {
             "name": "freedsx/socket",
@@ -566,16 +566,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "14.1.7",
+            "version": "14.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "da6e6b64940901650abcea62430c8c24926b7a71"
+                "reference": "031856c28c060e1c1d1fc94d256e3ffbe4230c91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/da6e6b64940901650abcea62430c8c24926b7a71",
-                "reference": "da6e6b64940901650abcea62430c8c24926b7a71",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/031856c28c060e1c1d1fc94d256e3ffbe4230c91",
+                "reference": "031856c28c060e1c1d1fc94d256e3ffbe4230c91",
                 "shasum": ""
             },
             "require": {
@@ -632,7 +632,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/14.1.7"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/14.1.8"
             },
             "funding": [
                 {
@@ -652,7 +652,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-04T15:51:53+00:00"
+            "time": "2026-05-09T12:06:52+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
